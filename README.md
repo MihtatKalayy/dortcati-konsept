@@ -30,6 +30,7 @@ npm ci
 | `npm run typecheck` | TypeScript tip kontrolü |
 | `npm run lint` | ESLint |
 | `npm test` | Vitest testleri |
+| `npm run cizimler` | Proje çizimlerini (`src/assets/projects`) yeniden üretir |
 
 ## Yayın
 

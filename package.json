@@ -12,7 +12,8 @@
     "typecheck": "tsc -b",
     "lint": "eslint .",
     "test": "vitest run",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "cizimler": "node scripts/drawings/generate.ts"
   },
   "dependencies": {
     "react": "^19.3.0",

@@ -225,8 +225,8 @@ Başlıklar ekran genişliğine göre `clamp()` ile akıcı ölçeklenir:
 | Ana sayfa | `/` |
 | Hakkımızda | `/hakkimizda` |
 | Hizmetler | `/hizmetler` |
-| Projeler | `/projeler` (filtre ileride sorgu parametresiyle, ör. `/projeler?kategori=konut`) |
-| Proje detayı | `/projeler/:slug` |
+| Projeler | `/projeler`; kategori filtresi `?kategori=<kategori-slug>` (ör. `/projeler?kategori=ic-mekan`). Geçersiz veya eksik değer "Tümü" gösterir. |
+| Proje detayı | `/projeler/<proje-slug>` (ör. `/projeler/zeytinlik-evi`); olmayan slug 404 görünümü gösterir. |
 | İletişim (teklif formu) | `/iletisim` |
 | 404 | Eşleşmeyen tüm adresler |
 
@@ -238,6 +238,7 @@ Adresler `src/routes/paths.ts` içinde tek yerde tanımlıdır. Sabit dosyalar: 
 .
 ├── index.html               # Dil, başlık, açıklama, tema rengi, favicon, font preload
 ├── netlify.toml             # Build, yönlendirme, 404 kuralları, başlıklar
+├── scripts/drawings/        # Proje çizimlerini üreten betik (npm run cizimler)
 ├── public/                  # Olduğu gibi kopyalanan dosyalar
 │   ├── 404.html
 │   ├── favicon.svg
@@ -246,23 +247,52 @@ Adresler `src/routes/paths.ts` içinde tek yerde tanımlıdır. Sabit dosyalar: 
 └── src/
     ├── main.tsx             # Giriş noktası
     ├── assets/fonts/        # Alt kümelenmiş woff2 fontlar ve OFL lisansları
+    ├── assets/projects/     # Üretilmiş SVG çizimler: <proje-id>/{kapak,galeri-1,galeri-2,galeri-3}.svg
     ├── components/
     │   ├── layout/          # Layout, Header, MobileMenu, Footer, SkipLink, RouteChangeAnnouncer
-    │   └── ui/              # PageHeading, PlaceholderPage, PageLoading, LogoMark
-    ├── content/             # Tek içerik kaynağı (site.ts), tipler (types.ts) ve testler
+    │   ├── projects/        # ProjectFilter, ProjectCard
+    │   └── ui/              # PageHeading, PlaceholderPage, NotFoundView, TextLink, PageLoading, LogoMark
+    ├── content/             # Tek içerik kaynağı: site.ts (metinler), projects.ts (proje ve kategori verisi),
+    │                        # projectQueries.ts (saf sorgu işlevleri), types.ts ve testler
     ├── hooks/               # useDocumentTitle
     ├── pages/               # Her sayfa ayrı parça olarak yüklenir
     ├── routes/              # Adresler (paths.ts) ve yönlendirici (router.tsx)
     └── styles/index.css     # Tailwind teması: tasarım belirteçleri, @font-face
 ```
 
+## Proje verisi
+
+`src/content/projects.ts` 3 kategori ve 9 kurgusal proje içerir. Her projenin sabit bir `id`'si (`prj-001` …) ve adres için ayrı bir `slug`'ı vardır; kategori bağlantısı `categoryId` ile kurulur. Sıralama: önce öne çıkanlar, sonra tamamlanma tarihine (`completedAt`, YYYY-AA) göre yeniden eskiye. Önceki/sonraki proje bu sıraya göre ve döngüsel olarak (ilkin öncesi son proje) bulunur.
+
+| Proje | Kategori | Yıl | Alan | Öne çıkan |
+| --- | --- | --- | --- | --- |
+| Zeytinlik Evi | Konut | 2023 | 240 m² | Evet |
+| Avlulu Sıra Evler | Konut | 2022 | 1.180 m² | |
+| Yamaç Evi | Konut | 2024 | 310 m² | |
+| Liman Ofisleri | Ticari | 2021 | 2.400 m² | Evet |
+| Çarşı Pasajı | Ticari | 2023 | 860 m² | |
+| Bağ Tadım Salonu | Ticari | 2024 | 520 m² | |
+| Kitap Kafe | İç Mekân | 2022 | 140 m² | Evet |
+| Küçük Daire | İç Mekân | 2023 | 68 m² | |
+| Sakin Klinik | İç Mekân | 2024 | 210 m² | |
+
 ## Görsel kaynakları ve lisanslar
 
-Henüz görsel eklenmedi. Görsel eklendikçe her biri aşağıdaki tabloya işlenir.
+Bu çalışmada **fotoğraf kullanılmaz**. Tüm proje görselleri bu repo için özgün olarak üretilmiş çizimlerdir; gerçek bir yapıyı tasvir etmez ve üçüncü taraf kaynak içermez.
 
-| Dosya | Kullanıldığı yer | Kaynak | Yazar | Lisans |
+| Dosyalar | Kullanıldığı yer | Kaynak | Yazar | Lisans |
 | --- | --- | --- | --- | --- |
-| — | — | — | — | — |
+| `src/assets/projects/prj-001` … `prj-006` / `kapak.svg` (aksonometri), `galeri-1.svg` (cephe), `galeri-2.svg` (kesit), `galeri-3.svg` (plan) | Proje kartları ve proje detayı | `scripts/drawings` betiğiyle kütle modellerinden üretildi | Dörtçatı konsept çalışması (özgün) | Repo ile aynı koşullar; üçüncü taraf hakkı yok |
+| `src/assets/projects/prj-007` … `prj-009` / `kapak.svg` (iç perspektif), `galeri-1.svg` (plan), `galeri-2.svg` (iç cephe / kesit), `galeri-3.svg` (detay aksonometrisi) | Proje kartları ve proje detayı | `scripts/drawings` betiğiyle üretildi | Dörtçatı konsept çalışması (özgün) | Repo ile aynı koşullar; üçüncü taraf hakkı yok |
+| `src/assets/fonts/*.woff2` | Tüm site | Google Fonts deposu (Fraunces, Inter) | Fraunces ve Inter proje yazarları | SIL OFL 1.1 |
+
+Çizim kuralları:
+
+- Tek tarz: beyaz zemin, siyaha yakın çizgi, nötr gri yüzeyler ve her çizimde yalnızca bir vurgu öğesi (giriş kapısı, kesit hattı, ışık yönü).
+- Boyut: tüm çizimler 1200 × 800 (3:2); `<img>` etiketinde `width`/`height` verilir, böylece yüklenirken düzen kaymaz.
+- Optimizasyon: koordinatlar tek ondalığa yuvarlanır, çizim başına ≈ 1–21 KB SVG. Derlemede ayrı dosya olarak (satır içine gömülmeden, `?no-inline`) ve içerik özetli adla yayınlanır.
+- Yükleme: Projeler sayfasındaki ilk kart görseli öncelikli (`eager`, `fetchpriority="high"`), diğerleri tembel (`loading="lazy"`) yüklenir.
+- Yeniden üretmek için: `npm run cizimler`. Her görselin alt metni `projects.ts` içindedir.
 
 ## Yol haritası
 
