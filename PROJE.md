@@ -250,11 +250,12 @@ Adresler `src/routes/paths.ts` içinde tek yerde tanımlıdır. Sabit dosyalar: 
     ├── assets/projects/     # Üretilmiş SVG çizimler: <proje-id>/{kapak,galeri-1,galeri-2,galeri-3}.svg
     ├── components/
     │   ├── layout/          # Layout, Header, MobileMenu, Footer, SkipLink, RouteChangeAnnouncer
-    │   ├── projects/        # ProjectFilter, ProjectCard
+    │   ├── projects/        # ProjectFilter, ProjectCard, Breadcrumb, ProjectFacts, ProjectGallery,
+    │                        # ImageButton, ImageViewer (tam ekran), AdjacentProjects
     │   └── ui/              # PageHeading, PlaceholderPage, NotFoundView, TextLink, PageLoading, LogoMark
     ├── content/             # Tek içerik kaynağı: site.ts (metinler), projects.ts (proje ve kategori verisi),
-    │                        # projectQueries.ts (saf sorgu işlevleri), types.ts ve testler
-    ├── hooks/               # useDocumentTitle
+    │                        # projectQueries.ts (saf sorgu işlevleri), format.ts, types.ts ve testler
+    ├── hooks/               # useDocumentTitle, useModalDialog
     ├── pages/               # Her sayfa ayrı parça olarak yüklenir
     ├── routes/              # Adresler (paths.ts) ve yönlendirici (router.tsx)
     └── styles/index.css     # Tailwind teması: tasarım belirteçleri, @font-face
@@ -276,6 +277,13 @@ Adresler `src/routes/paths.ts` içinde tek yerde tanımlıdır. Sabit dosyalar: 
 | Küçük Daire | İç Mekân | 2023 | 68 m² | |
 | Sakin Klinik | İç Mekân | 2024 | 210 m² | |
 
+## Proje detay sayfası
+
+- Sıra: yol göstergesi → başlık ve özet → kapak → künye (geniş ekranda açıklamanın solunda, mobilde üstünde) → açıklama (en fazla `42rem` satır genişliği) → galeri → önceki/sonraki proje.
+- Künye bir tanım listesidir (`dl`/`dt`/`dd`); alan `Intl.NumberFormat('tr-TR')` ile biçimlenir (ör. `1.180 m²`).
+- Görüntüleyici yerel modal `<dialog>` kullanır; harici galeri kütüphanesi yoktur. Görsel sırası: kapak, ardından galeri. Ok tuşları ve dokunmatik kaydırma döngüseldir.
+- Önceki/sonraki proje, Projeler sayfasındaki "Tümü" sırasına göre ve döngüsel olarak belirlenir; eşleştirme id ile yapılır.
+
 ## Görsel kaynakları ve lisanslar
 
 Bu çalışmada **fotoğraf kullanılmaz**. Tüm proje görselleri bu repo için özgün olarak üretilmiş çizimlerdir; gerçek bir yapıyı tasvir etmez ve üçüncü taraf kaynak içermez.
@@ -291,7 +299,7 @@ Bu çalışmada **fotoğraf kullanılmaz**. Tüm proje görselleri bu repo için
 - Tek tarz: beyaz zemin, siyaha yakın çizgi, nötr gri yüzeyler ve her çizimde yalnızca bir vurgu öğesi (giriş kapısı, kesit hattı, ışık yönü).
 - Boyut: tüm çizimler 1200 × 800 (3:2); `<img>` etiketinde `width`/`height` verilir, böylece yüklenirken düzen kaymaz.
 - Optimizasyon: koordinatlar tek ondalığa yuvarlanır, çizim başına ≈ 1–21 KB SVG. Derlemede ayrı dosya olarak (satır içine gömülmeden, `?no-inline`) ve içerik özetli adla yayınlanır.
-- Yükleme: Projeler sayfasındaki ilk kart görseli öncelikli (`eager`, `fetchpriority="high"`), diğerleri tembel (`loading="lazy"`) yüklenir.
+- Yükleme: Projeler sayfasındaki ilk kart görseli ve proje detayındaki kapak öncelikli (`eager`, `fetchpriority="high"`), diğerleri tembel (`loading="lazy"`) yüklenir.
 - Yeniden üretmek için: `npm run cizimler`. Her görselin alt metni `projects.ts` içindedir.
 
 ## Yol haritası

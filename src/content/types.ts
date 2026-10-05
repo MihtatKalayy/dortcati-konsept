@@ -126,6 +126,21 @@ export interface ProjectsPageCopy {
 
 export interface ProjectDetailCopy {
   backToProjects: string
+  breadcrumbLabel: string
+  factsHeading: string
+  facts: { category: string; year: string; location: string; area: string; scope: string }
+  descriptionHeading: string
+  galleryHeading: string
+  /** Görsel düğmesinin ekran okuyucu eki (alt metnin ardından okunur). */
+  openImageHint: string
+  viewer: {
+    label: (projectName: string) => string
+    close: string
+    previous: string
+    next: string
+    position: (current: number, total: number, caption: string) => string
+  }
+  adjacent: { label: string; previous: string; next: string }
 }
 
 export interface SiteContent {
