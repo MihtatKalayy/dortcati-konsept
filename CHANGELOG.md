@@ -6,6 +6,10 @@ Bu dosyada projedeki önemli değişiklikler listelenir.
 
 ### Eklendi
 
+- Ana sayfa: büyük tipografili açılış (h1, alt metin, "Projeleri incele" ve "Teklif al", öne çıkan projenin öncelikli yüklenen çizimi), yaklaşım paragrafı ve "Hakkımızda" bağlantısı, öne çıkan 3 proje (biri geniş, ikisi yan yana; mevcut kart bileşeniyle), numaralı hizmet özeti ve kapanış çağrısı.
+- Hizmet verisi (`src/content/services.ts`): sabit id ve slug ile 5 hizmet; ad, tek cümlelik özet ve ayrıntılı açıklama; birim testleriyle.
+- `getFeaturedProjects` ve `getCategory` yardımcıları; ana sayfa başlığı ve açıklama meta etiketinin `index.html` ile tutarlılığını denetleyen test.
+- `ButtonLink` bileşeni ve sayfa açıkken açıklama meta etiketini değiştiren `useMetaDescription` kancası.
 - Proje detay sayfası: yol göstergesi (Projeler › Kategori › Proje; kategori bağlantısı filtreli listeyi açar), başlık, özet, öncelikli yüklenen büyük kapak, tanım listesi olarak proje künyesi (alan Türkçe sayı biçimiyle), açıklama ve önceki/sonraki proje geçişi (Tümü sırasına göre, döngüsel).
 - Editoryal galeri (biri tam genişlikte, ikisi yan yana) ve tam ekran görüntüleyici: yerel modal `<dialog>`, ok tuşları, önceki/sonraki düğmeleri, dokunmatik kaydırma, Escape ile kapanma, kapanınca odağın açan görsele dönmesi, konum ve çizim türünün ekran okuyucuya duyurulması.
 - `formatArea` (Türkçe alan biçimi) ve gerçek veride önceki/sonraki geçişi için birim testleri.
@@ -27,6 +31,9 @@ Bu dosyada projedeki önemli değişiklikler listelenir.
 
 ### Değişti
 
+- Ana sayfa sekme başlığı: "Dörtçatı Mimarlık — Mimarlık ve iç mimarlık | Konsept çalışma" (`index.html` ile aynı). Ana sayfa yer tutucu metni içerik kaynağından kaldırıldı.
+- `ProjectCard` başlık düzeyini parametre olarak alır (Projeler'de h2, ana sayfada h3); `PageHeading` büyük "display" ölçeğini destekler.
+- Projeler ve proje detay sayfaları kategori adını ortak `getCategory` ile bulur.
 - Modal `<dialog>` eşitleme ve kaydırma kilidi `useModalDialog` kancasına taşındı; mobil menü ve görsel görüntüleyici bunu ortak kullanır.
 - Yer tutucu sayfalar başlığı doğrudan alır; 404 görünümü `NotFoundView` bileşenine taşındı.
 - İçerik tiplerinden kullanılmayan "Proje detayı" sayfa başlığı kaldırıldı (başlık artık proje adından gelir).

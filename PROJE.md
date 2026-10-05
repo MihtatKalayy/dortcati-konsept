@@ -252,10 +252,11 @@ Adresler `src/routes/paths.ts` içinde tek yerde tanımlıdır. Sabit dosyalar: 
     │   ├── layout/          # Layout, Header, MobileMenu, Footer, SkipLink, RouteChangeAnnouncer
     │   ├── projects/        # ProjectFilter, ProjectCard, Breadcrumb, ProjectFacts, ProjectGallery,
     │                        # ImageButton, ImageViewer (tam ekran), AdjacentProjects
-    │   └── ui/              # PageHeading, PlaceholderPage, NotFoundView, TextLink, PageLoading, LogoMark
+    │   └── ui/              # PageHeading, ButtonLink, PlaceholderPage, NotFoundView, TextLink, PageLoading, LogoMark
     ├── content/             # Tek içerik kaynağı: site.ts (metinler), projects.ts (proje ve kategori verisi),
-    │                        # projectQueries.ts (saf sorgu işlevleri), format.ts, types.ts ve testler
-    ├── hooks/               # useDocumentTitle, useModalDialog
+    │                        # services.ts (hizmet verisi), projectQueries.ts (saf sorgu işlevleri),
+    │                        # format.ts, types.ts ve testler
+    ├── hooks/               # useDocumentTitle, useMetaDescription, useModalDialog
     ├── pages/               # Her sayfa ayrı parça olarak yüklenir
     ├── routes/              # Adresler (paths.ts) ve yönlendirici (router.tsx)
     └── styles/index.css     # Tailwind teması: tasarım belirteçleri, @font-face
@@ -276,6 +277,25 @@ Adresler `src/routes/paths.ts` içinde tek yerde tanımlıdır. Sabit dosyalar: 
 | Kitap Kafe | İç Mekân | 2022 | 140 m² | Evet |
 | Küçük Daire | İç Mekân | 2023 | 68 m² | |
 | Sakin Klinik | İç Mekân | 2024 | 210 m² | |
+
+## Hizmet verisi
+
+`src/content/services.ts` 5 hizmet içerir; her birinin sabit `id`'si (`svc-001` …), `slug`'ı, adı, tek cümlelik özeti ve ayrıntılı açıklaması vardır. Ana sayfa yalnızca ad ve özeti, Hizmetler sayfası tamamını kullanır.
+
+| id | Hizmet |
+| --- | --- |
+| `svc-001` | Mimari tasarım |
+| `svc-002` | İç mimarlık |
+| `svc-003` | Uygulama ve şantiye yönetimi |
+| `svc-004` | Renovasyon ve yeniden kullanım |
+| `svc-005` | Danışmanlık |
+
+## Ana sayfa
+
+- Bölümler: açılış (h1 = marka sloganı, alt metin, iki çağrı, öne çıkan ilk projenin cephe çizimi) → yaklaşım → öne çıkan projeler → hizmetler → kapanış çağrısı.
+- Öne çıkan projeler `getFeaturedProjects(projects, 3)` ile, Projeler sayfasıyla aynı sırada seçilir. Kartlar kapak çizimini gösterdiği için açılış görseli aynı projenin galerisinden (cephe) gelir.
+- Başlık ve açıklama meta etiketi içerik kaynağındadır ve `index.html` ile aynı tutulur (test). Diğer sayfalar açıklamayı değiştirmez; ana sayfadan ayrılınca önceki değer geri yüklenir.
+- Hareket yalnızca üzerine gelme geçişleridir; hareketi azaltma tercihinde kapanır. Slider, otomatik video, istatistik, ödül, logo veya müşteri yorumu yoktur.
 
 ## Proje detay sayfası
 
