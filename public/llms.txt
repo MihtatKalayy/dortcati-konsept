@@ -1,0 +1,13 @@
+# Dörtçatı Mimarlık
+
+> Dörtçatı Mimarlık, kurgusal bir mimarlık ve iç mimarlık ofisinin kurumsal web sitesidir. Bu site bir konsept (portföy) çalışmasıdır; gerçek bir firmayı, kişiyi veya projeyi temsil etmez. Sitedeki firma adı, projeler, ekip ve iletişim bilgileri kurgusaldır.
+
+Site; konut, ticari ve iç mekân kategorilerindeki kurgusal projeleri, ofisin hizmetlerini ve bir teklif formunu tanıtır. Teklif formu hiçbir yere veri göndermez.
+
+## Sayfalar
+
+- [Ana sayfa](/): Ofisin kısa tanıtımı.
+- [Projeler](/projeler): Kategoriye göre süzülebilen kurgusal proje listesi.
+- [Hizmetler](/hizmetler): Sunulan hizmetler ve çalışma süreci.
+- [Hakkımızda](/hakkimizda): Ofisin hikâyesi, yaklaşımı ve kurgusal ekip.
+- [İletişim](/iletisim): Yer tutucu iletişim bilgileri ve teklif formu.
