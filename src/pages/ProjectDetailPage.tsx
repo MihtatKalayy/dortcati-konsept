@@ -9,7 +9,7 @@ import { ProjectGallery } from '../components/projects/ProjectGallery'
 import { NotFoundView } from '../components/ui/NotFoundView'
 import { PageHeading } from '../components/ui/PageHeading'
 import { findProjectBySlug, getAdjacentProjects, sortProjects } from '../content/projectQueries'
-import { categories, projects } from '../content/projects'
+import { getCategory, projects } from '../content/projects'
 import { site } from '../content/site'
 import type { Project } from '../content/types'
 import { useDocumentTitle } from '../hooks/useDocumentTitle'
@@ -31,8 +31,7 @@ function ProjectDetail({ project }: { project: Project }) {
   const [viewerIndex, setViewerIndex] = useState<number | null>(null)
   useDocumentTitle(project.name)
 
-  const category = categories.find((c) => c.id === project.categoryId)
-  if (!category) throw new Error(`Tanımsız kategori: ${project.categoryId}`)
+  const category = getCategory(project.categoryId)
   const adjacent = getAdjacentProjects(orderedProjects, project.id)
   // Görüntüleyicide kapak ilk sırada, ardından galeri görselleri.
   const viewerImages = [project.cover, ...project.gallery]

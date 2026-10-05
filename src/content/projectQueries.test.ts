@@ -5,6 +5,7 @@ import {
   findCategoryBySlug,
   findProjectBySlug,
   getAdjacentProjects,
+  getFeaturedProjects,
   sortProjects,
 } from './projectQueries'
 import type { Project } from './types'
@@ -132,5 +133,12 @@ describe('getAdjacentProjects', () => {
   it('olmayan id veya tek projelik listede null döndürür', () => {
     expect(getAdjacentProjects(ordered, 'yok')).toBeNull()
     expect(getAdjacentProjects([a], 'a')).toBeNull()
+  })
+})
+
+describe('getFeaturedProjects', () => {
+  it('yalnızca öne çıkanları, sıralı ve sınırlı döndürür', () => {
+    expect(getFeaturedProjects(list, 3).map((p) => p.id)).toEqual(['c', 'd'])
+    expect(getFeaturedProjects(list, 1).map((p) => p.id)).toEqual(['c'])
   })
 })
