@@ -36,8 +36,7 @@ export const site: SiteContent = {
     home: { heading: 'Yaşanacak mekânlar, sade çizgiler.' },
     about: { heading: 'Hakkımızda', documentTitle: 'Hakkımızda' },
     services: { heading: 'Hizmetler', documentTitle: 'Hizmetler' },
-    projects: { heading: 'Projeler', documentTitle: 'Projeler' },
-    projectDetail: { heading: 'Proje detayı', documentTitle: 'Proje detayı' },
+    projects: { heading: 'Projeler' },
     contact: { heading: 'İletişim', documentTitle: 'İletişim' },
     notFound: { heading: 'Sayfa bulunamadı', documentTitle: 'Sayfa bulunamadı' },
   },
@@ -54,6 +53,23 @@ export const site: SiteContent = {
     heading: 'Bir şeyler ters gitti',
     body: 'Sayfa yüklenemedi. Bağlantınızı kontrol edip sayfayı yenilemeyi deneyin.',
     reload: 'Sayfayı yenile',
+  },
+
+  projectsPage: {
+    intro:
+      'Konut, ticari ve iç mekân ölçeğinde dokuz kurgusal proje. Görseller her proje için özgün olarak hazırlanmış mimari çizimlerdir.',
+    filterLabel: 'Proje kategorileri',
+    allLabel: 'Tümü',
+    countUnit: 'proje',
+    resultStatus: (count, categoryName) =>
+      categoryName ? `${categoryName} kategorisinde ${count} proje` : `Tüm kategorilerde ${count} proje`,
+    emptyResult: 'Bu kategoride henüz proje yok.',
+    documentTitle: (categoryName) => (categoryName ? `${categoryName} projeleri` : 'Projeler'),
+    meta: { category: 'Kategori', year: 'Yıl', location: 'Konum' },
+  },
+
+  projectDetail: {
+    backToProjects: 'Tüm projeler',
   },
 
   ui: {

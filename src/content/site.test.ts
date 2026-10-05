@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { formatDocumentTitle } from './documentTitle'
 import { site } from './site'
-import { paths, projectDetailPath } from '../routes/paths'
+import { paths, projectDetailPath, projectsPath } from '../routes/paths'
 
 describe('içerik kaynağı', () => {
   it('menü öğelerinin kimlikleri benzersiz', () => {
@@ -41,5 +41,15 @@ describe('projectDetailPath', () => {
 
   it('özel karakterleri kodlar', () => {
     expect(projectDetailPath('a b/c')).toBe('/projeler/a%20b%2Fc')
+  })
+})
+
+describe('projectsPath', () => {
+  it('kategori yoksa filtresiz adres', () => {
+    expect(projectsPath()).toBe('/projeler')
+  })
+
+  it('kategori ile sorgu parametreli adres', () => {
+    expect(projectsPath('ic-mekan')).toBe('/projeler?kategori=ic-mekan')
   })
 })
