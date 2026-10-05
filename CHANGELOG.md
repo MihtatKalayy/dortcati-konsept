@@ -6,6 +6,9 @@ Bu dosyada projedeki önemli değişiklikler listelenir.
 
 ### Eklendi
 
+- Proje detay sayfası: yol göstergesi (Projeler › Kategori › Proje; kategori bağlantısı filtreli listeyi açar), başlık, özet, öncelikli yüklenen büyük kapak, tanım listesi olarak proje künyesi (alan Türkçe sayı biçimiyle), açıklama ve önceki/sonraki proje geçişi (Tümü sırasına göre, döngüsel).
+- Editoryal galeri (biri tam genişlikte, ikisi yan yana) ve tam ekran görüntüleyici: yerel modal `<dialog>`, ok tuşları, önceki/sonraki düğmeleri, dokunmatik kaydırma, Escape ile kapanma, kapanınca odağın açan görsele dönmesi, konum ve çizim türünün ekran okuyucuya duyurulması.
+- `formatArea` (Türkçe alan biçimi) ve gerçek veride önceki/sonraki geçişi için birim testleri.
 - Proje ve kategori verisi (`src/content/projects.ts`): 3 kategoride 9 kurgusal proje; sabit id, slug, künye, özet, açıklama, kapak ve galeri görselleri.
 - Saf sorgu işlevleri (`projectQueries.ts`): kategoriye göre süzme, sıralama, slug ile proje/kategori bulma, kategori sayımı, önceki/sonraki proje; birim testleriyle.
 - Proje çizimleri: `scripts/drawings` ile üretilen 36 özgün SVG (aksonometri, cephe, kesit, plan, iç perspektif, detay); `npm run cizimler` komutu.
@@ -24,9 +27,9 @@ Bu dosyada projedeki önemli değişiklikler listelenir.
 
 ### Değişti
 
+- Modal `<dialog>` eşitleme ve kaydırma kilidi `useModalDialog` kancasına taşındı; mobil menü ve görsel görüntüleyici bunu ortak kullanır.
 - Yer tutucu sayfalar başlığı doğrudan alır; 404 görünümü `NotFoundView` bileşenine taşındı.
 - İçerik tiplerinden kullanılmayan "Proje detayı" sayfa başlığı kaldırıldı (başlık artık proje adından gelir).
 - ESLint ve `tsconfig.node.json` `scripts/` klasörünü de kapsıyor.
-
 - `README.md`: konsept notu, kurulum, çalıştırma ve test komutları.
 - `PROJE.md`: tasarım sistemi (fontlar, renk kodları, kontrast oranları), adres yapısı, klasör düzeni ve yayın ayrıntıları eklendi.
