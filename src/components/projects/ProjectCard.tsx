@@ -8,11 +8,14 @@ interface ProjectCardProps {
   categoryName: string
   /** İlk ekranda görünen kart: görsel hemen ve öncelikli yüklenir. */
   priority?: boolean
+  /** Kartın bulunduğu bölümün başlık düzeyine göre (varsayılan h2). */
+  headingLevel?: 'h2' | 'h3'
 }
 
 /** Kartın tamamı, başlıktaki bağlantının ::after ile genişletilmesiyle tıklanabilir. */
-export function ProjectCard({ project, categoryName, priority = false }: ProjectCardProps) {
+export function ProjectCard({ project, categoryName, priority = false, headingLevel = 'h2' }: ProjectCardProps) {
   const { meta } = site.projectsPage
+  const Heading = headingLevel
   const { cover } = project
 
   return (
@@ -29,14 +32,14 @@ export function ProjectCard({ project, categoryName, priority = false }: Project
           className="block h-auto w-full transition-transform duration-500 ease-out group-hover:scale-[1.03]"
         />
       </div>
-      <h2 className="mt-5 text-h3">
+      <Heading className="mt-5 text-h3">
         <Link
           to={projectDetailPath(project.slug)}
           className="decoration-accent decoration-2 underline-offset-[0.2em] group-hover:underline after:absolute after:inset-0 focus-visible:outline-none"
         >
           {project.name}
         </Link>
-      </h2>
+      </Heading>
       <dl className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-gray-600">
         <div>
           <dt className="sr-only">{meta.category}</dt>
