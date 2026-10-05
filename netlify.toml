@@ -1,0 +1,77 @@
+# Netlify yayın ayarları. Kurallar yukarıdan aşağıya ilk eşleşene göre uygulanır.
+
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  # Vite 8: ^20.19 || >=22.12; React Router 8: >=22.22. Netlify 22 serisinin güncel sürümünü kurar.
+  NODE_VERSION = "22"
+
+# --- Gerçek 404 dönecek adresler (SPA yönlendirmesinden ÖNCE gelmeli) ---
+# force = false (varsayılan): adreste gerçekten bir dosya varsa o dosya sunulur;
+# yalnızca var olmayan adresler 404 alır.
+
+[[redirects]]
+  from = "/.well-known/*"
+  to = "/404.html"
+  status = 404
+
+[[redirects]]
+  from = "/ai-catalog.json"
+  to = "/404.html"
+  status = 404
+
+# Eski yayından kalmış, artık olmayan derleme dosyaları HTML yerine 404 dönsün.
+[[redirects]]
+  from = "/assets/*"
+  to = "/404.html"
+  status = 404
+
+[[redirects]]
+  from = "/favicon.ico"
+  to = "/404.html"
+  status = 404
+
+# --- Tek sayfa uygulaması yönlendirmesi ---
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# --- Başlıklar ---
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    X-Frame-Options = "DENY"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
+
+# Vite'ın içerik özetli (hash) adlı dosyaları kalıcıdır; uzun süre önbelleklenir.
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Giriş HTML'i her seferinde yeniden doğrulanır.
+[[headers]]
+  for = "/"
+  [headers.values]
+    Cache-Control = "no-cache"
+
+[[headers]]
+  for = "/index.html"
+  [headers.values]
+    Cache-Control = "no-cache"
+
+[[headers]]
+  for = "/llms.txt"
+  [headers.values]
+    Content-Type = "text/plain; charset=utf-8"
+
+[[headers]]
+  for = "/robots.txt"
+  [headers.values]
+    Content-Type = "text/plain; charset=utf-8"

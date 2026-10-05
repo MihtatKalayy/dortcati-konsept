@@ -1,0 +1,72 @@
+import type { SiteContent } from './types'
+
+/**
+ * Sitenin tek içerik kaynağı. Bileşenler metinleri buradan okur.
+ * Firma, iletişim bilgileri ve tüm içerik kurgusaldır.
+ */
+export const site: SiteContent = {
+  brand: {
+    name: 'Dörtçatı Mimarlık',
+    tagline: 'Yaşanacak mekânlar, sade çizgiler.',
+    description:
+      'Konut, ticari ve iç mekân projeleri üreten kurgusal bir mimarlık ve iç mimarlık ofisi.',
+  },
+
+  conceptNotice: 'Bu site bir konsept çalışmadır; gerçek bir firmayı temsil etmez.',
+
+  nav: [
+    { id: 'nav-projeler', label: 'Projeler', page: 'projects' },
+    { id: 'nav-hizmetler', label: 'Hizmetler', page: 'services' },
+    { id: 'nav-hakkimizda', label: 'Hakkımızda', page: 'about' },
+    { id: 'nav-iletisim', label: 'İletişim', page: 'contact' },
+  ],
+
+  primaryCta: { label: 'Teklif Al', page: 'contact' },
+
+  contact: {
+    email: 'merhaba@dortcati.example',
+    phone: '+90 000 000 00 00',
+    phoneHref: '+900000000000',
+    addressLines: ['Kurgu Sokak No: 4', 'Örnek Mahallesi, İstanbul'],
+    hours: 'Hafta içi 09.00–18.00',
+    placeholderNote: 'İletişim bilgileri yer tutucudur.',
+  },
+
+  pages: {
+    home: { heading: 'Yaşanacak mekânlar, sade çizgiler.' },
+    about: { heading: 'Hakkımızda', documentTitle: 'Hakkımızda' },
+    services: { heading: 'Hizmetler', documentTitle: 'Hizmetler' },
+    projects: { heading: 'Projeler', documentTitle: 'Projeler' },
+    projectDetail: { heading: 'Proje detayı', documentTitle: 'Proje detayı' },
+    contact: { heading: 'İletişim', documentTitle: 'İletişim' },
+    notFound: { heading: 'Sayfa bulunamadı', documentTitle: 'Sayfa bulunamadı' },
+  },
+
+  notFoundBody: 'Aradığınız sayfa taşınmış ya da hiç var olmamış olabilir.',
+
+  footer: {
+    navHeading: 'Sayfalar',
+    contactHeading: 'İletişim',
+    copyright: (year) => `© ${year} Dörtçatı Mimarlık — kurgusal bir ofis.`,
+  },
+
+  error: {
+    heading: 'Bir şeyler ters gitti',
+    body: 'Sayfa yüklenemedi. Bağlantınızı kontrol edip sayfayı yenilemeyi deneyin.',
+    reload: 'Sayfayı yenile',
+  },
+
+  ui: {
+    skipToContent: 'İçeriğe geç',
+    primaryNavLabel: 'Ana menü',
+    footerNavLabel: 'Alt menü',
+    homeLinkLabel: 'Dörtçatı Mimarlık, ana sayfa',
+    menuOpen: 'Menü',
+    menuClose: 'Kapat',
+    mobileMenuLabel: 'Site menüsü',
+    pageLoading: 'Sayfa yükleniyor…',
+    placeholderBody: 'Bu sayfanın içeriği sonraki adımlarda eklenecek.',
+    routeAnnouncement: (pageHeading) => `${pageHeading} sayfası açıldı`,
+    backToHome: 'Ana sayfaya dön',
+  },
+}
