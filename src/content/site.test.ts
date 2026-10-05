@@ -29,8 +29,8 @@ describe('formatDocumentTitle', () => {
     expect(formatDocumentTitle('Projeler')).toBe('Projeler | Dörtçatı Mimarlık')
   })
 
-  it('başlık yoksa marka adı ve sloganı kullanır', () => {
-    expect(formatDocumentTitle()).toBe(`Dörtçatı Mimarlık — ${site.brand.tagline}`)
+  it('başlık yoksa ana sayfa başlığını kullanır', () => {
+    expect(formatDocumentTitle()).toBe(site.home.documentTitle)
   })
 })
 

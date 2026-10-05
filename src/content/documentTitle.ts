@@ -1,7 +1,6 @@
 import { site } from './site'
 
-/** Sekme başlığı: "Sayfa | Marka" ya da ana sayfa için "Marka — Slogan". */
+/** Sekme başlığı: "Sayfa | Marka"; sayfa başlığı yoksa ana sayfa başlığı. */
 export function formatDocumentTitle(pageTitle?: string): string {
-  const { name, tagline } = site.brand
-  return pageTitle ? `${pageTitle} | ${name}` : `${name} — ${tagline}`
+  return pageTitle ? `${pageTitle} | ${site.brand.name}` : site.home.documentTitle
 }
