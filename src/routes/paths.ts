@@ -23,3 +23,8 @@ export function projectsPath(categorySlug?: string): string {
   if (!categorySlug) return paths.projects
   return `${paths.projects}?${new URLSearchParams({ [projectCategoryParam]: categorySlug })}`
 }
+
+/** Hizmetler sayfasında bir hizmetin çapalı adresi. */
+export function serviceAnchorPath(serviceSlug: string): string {
+  return `${paths.services}#${encodeURIComponent(serviceSlug)}`
+}

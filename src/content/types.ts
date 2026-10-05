@@ -153,6 +153,57 @@ export interface Service {
   summary: string
   /** Ayrıntılı açıklama paragrafları. */
   description: string[]
+  /** Hizmetin kapsadığı işler (3–5 kısa madde). */
+  includes: string[]
+}
+
+export interface ProcessStep {
+  /** Sabit kimlik. */
+  id: string
+  title: string
+  body: string
+}
+
+export interface FaqItem {
+  id: string
+  question: string
+  answer: string[]
+}
+
+export interface TeamMember {
+  /** Sabit kimlik. Ekip kurgusaldır. */
+  id: string
+  name: string
+  role: string
+  bio: string
+}
+
+export interface Principle {
+  id: string
+  title: string
+  body: string
+}
+
+export interface ServicesPageCopy {
+  heading: string
+  documentTitle: string
+  metaDescription: string
+  intro: string
+  includesHeading: string
+  process: { heading: string; intro: string }
+  faq: { heading: string }
+  closing: { heading: string; cta: string }
+}
+
+export interface AboutPageCopy {
+  heading: string
+  documentTitle: string
+  metaDescription: string
+  lead: string
+  story: { heading: string; paragraphs: string[] }
+  principles: { heading: string; items: Principle[] }
+  team: { heading: string; note: string }
+  closing: { heading: string; projectsLink: string; contactLink: string }
 }
 
 export interface HomeCopy {
@@ -180,8 +231,10 @@ export interface SiteContent {
   primaryCta: CallToAction
   contact: ContactInfo
   /** Proje detayının başlığı projenin adından gelir; bu yüzden burada yer almaz. */
-  pages: Record<Exclude<PageId, 'projectDetail' | 'home'>, PageCopy>
+  pages: Record<Exclude<PageId, 'projectDetail' | 'home' | 'about' | 'services'>, PageCopy>
   home: HomeCopy
+  servicesPage: ServicesPageCopy
+  about: AboutPageCopy
   notFoundBody: string
   footer: FooterCopy
   error: ErrorCopy
