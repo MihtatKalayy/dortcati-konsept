@@ -6,6 +6,10 @@ Bu dosyada projedeki önemli değişiklikler listelenir.
 
 ### Eklendi
 
+- Hizmetler sayfası: giriş, numaralı hizmet listesi (ayrıntılı açıklama ve 3–5 maddelik kapsam; her hizmet `/hizmetler#<slug>` çapasıyla), 5 adımlı çalışma süreci (sıralı liste), yerel `<details>` ile 5 sık sorulan soru ve kapanış çağrısı.
+- Hakkımızda sayfası: büyük puntolu açılış, ofisin hikâyesi, 4 tasarım ilkesi, baş harfli avatarlarla 4 kişilik kurgusal ekip ve görünür "Kurgusal ekip" notu, iki özgün çizim (atölye ve "dört çatı"), Projeler ve İletişim bağlantıları.
+- İçerik verisi: hizmet kapsam maddeleri (`includes`), çalışma süreci (`process.ts`), sık sorulan sorular (`faq.ts`), ekip (`team.ts`), Hakkımızda çizimleri (`aboutImages.ts`); hepsi sabit id ile ve birim testleriyle (SSS cevaplarında kesin süre/fiyat/garanti olmadığı da denetlenir).
+- Hakkımızda çizimleri `scripts/drawings/about.ts` ile üretilir (`npm run cizimler`).
 - Ana sayfa: büyük tipografili açılış (h1, alt metin, "Projeleri incele" ve "Teklif al", öne çıkan projenin öncelikli yüklenen çizimi), yaklaşım paragrafı ve "Hakkımızda" bağlantısı, öne çıkan 3 proje (biri geniş, ikisi yan yana; mevcut kart bileşeniyle), numaralı hizmet özeti ve kapanış çağrısı.
 - Hizmet verisi (`src/content/services.ts`): sabit id ve slug ile 5 hizmet; ad, tek cümlelik özet ve ayrıntılı açıklama; birim testleriyle.
 - `getFeaturedProjects` ve `getCategory` yardımcıları; ana sayfa başlığı ve açıklama meta etiketinin `index.html` ile tutarlılığını denetleyen test.
@@ -31,6 +35,10 @@ Bu dosyada projedeki önemli değişiklikler listelenir.
 
 ### Değişti
 
+- Ana sayfadaki hizmet adları Hizmetler sayfasında ilgili hizmetin çapasına bağlanır.
+- Sayfa geçişinde adreste çapa varsa odak h1 yerine çapalanan öğeye taşınır (`RouteChangeAnnouncer`).
+- Hakkımızda ve Hizmetler sayfalarına özgü sekme başlığı ve açıklama meta etiketi; bu sayfaların yer tutucu metinleri kaldırıldı. Yer tutucu olarak yalnızca İletişim kaldı.
+- Ortak metin stilleri `components/ui/styles.ts` içine, çizim boyutu sabitleri `content/drawingSize.ts` içine taşındı.
 - Ana sayfa sekme başlığı: "Dörtçatı Mimarlık — Mimarlık ve iç mimarlık | Konsept çalışma" (`index.html` ile aynı). Ana sayfa yer tutucu metni içerik kaynağından kaldırıldı.
 - `ProjectCard` başlık düzeyini parametre olarak alır (Projeler'de h2, ana sayfada h3); `PageHeading` büyük "display" ölçeğini destekler.
 - Projeler ve proje detay sayfaları kategori adını ortak `getCategory` ile bulur.
