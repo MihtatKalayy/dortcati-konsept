@@ -11,6 +11,13 @@ export const categories: ProjectCategory[] = [
   { id: 'cat-ic-mekan', slug: 'ic-mekan', name: 'İç Mekân' },
 ]
 
+/** Kategoriyi id ile bulur; tanımsız id veri hatasıdır ve fırlatır. */
+export function getCategory(id: string): ProjectCategory {
+  const category = categories.find((c) => c.id === id)
+  if (!category) throw new Error(`Tanımsız kategori: ${id}`)
+  return category
+}
+
 export const DRAWING_WIDTH = 1200
 export const DRAWING_HEIGHT = 800
 

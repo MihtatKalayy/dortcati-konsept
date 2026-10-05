@@ -8,20 +8,13 @@ import {
   findCategoryBySlug,
   sortProjects,
 } from '../content/projectQueries'
-import { categories, projects } from '../content/projects'
+import { categories, getCategory, projects } from '../content/projects'
 import { site } from '../content/site'
 import { useDocumentTitle } from '../hooks/useDocumentTitle'
 import { projectCategoryParam } from '../routes/paths'
 
 const orderedProjects = sortProjects(projects)
 const categoryCounts = countProjectsByCategory(projects)
-const categoryNames = new Map(categories.map((c) => [c.id, c.name]))
-
-function categoryName(categoryId: string): string {
-  const name = categoryNames.get(categoryId)
-  if (name === undefined) throw new Error(`Tanımsız kategori: ${categoryId}`)
-  return name
-}
 
 export default function ProjectsPage() {
   const copy = site.projectsPage
@@ -54,7 +47,7 @@ export default function ProjectsPage() {
         <ul className="mt-12 grid [overflow-anchor:none] gap-y-16 md:grid-cols-2 md:gap-x-10 lg:gap-x-16 lg:gap-y-24">
           {visible.map((project, index) => (
             <li key={project.id} className="md:even:mt-24">
-              <ProjectCard project={project} categoryName={categoryName(project.categoryId)} priority={index === 0} />
+              <ProjectCard project={project} categoryName={getCategory(project.categoryId).name} priority={index === 0} />
             </li>
           ))}
         </ul>

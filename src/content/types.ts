@@ -143,6 +143,36 @@ export interface ProjectDetailCopy {
   adjacent: { label: string; previous: string; next: string }
 }
 
+export interface Service {
+  /** Sabit kimlik; eşleştirmeler bu alanla yapılır. */
+  id: string
+  /** Adres için kısa ad (Hizmetler sayfasında bağlantı hedefi olarak). */
+  slug: string
+  name: string
+  /** Tek cümlelik özet. */
+  summary: string
+  /** Ayrıntılı açıklama paragrafları. */
+  description: string[]
+}
+
+export interface HomeCopy {
+  /** Sekme başlığı (ana sayfa marka adını kendisi taşır). */
+  documentTitle: string
+  /** index.html'deki açıklama meta etiketiyle aynı olmalıdır (testle denetlenir). */
+  metaDescription: string
+  hero: {
+    lead: string
+    primaryCta: string
+    secondaryCta: string
+    /** Hero görselinin altyazısı: proje adı ve çizim türü. */
+    imageCaption: (projectName: string, drawing: string) => string
+  }
+  intro: { heading: string; body: string; link: string }
+  featured: { heading: string; link: string }
+  services: { heading: string; link: string }
+  closing: { heading: string; cta: string }
+}
+
 export interface SiteContent {
   brand: Brand
   conceptNotice: string
@@ -150,7 +180,8 @@ export interface SiteContent {
   primaryCta: CallToAction
   contact: ContactInfo
   /** Proje detayının başlığı projenin adından gelir; bu yüzden burada yer almaz. */
-  pages: Record<Exclude<PageId, 'projectDetail'>, PageCopy>
+  pages: Record<Exclude<PageId, 'projectDetail' | 'home'>, PageCopy>
+  home: HomeCopy
   notFoundBody: string
   footer: FooterCopy
   error: ErrorCopy

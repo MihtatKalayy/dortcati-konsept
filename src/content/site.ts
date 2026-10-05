@@ -33,12 +33,31 @@ export const site: SiteContent = {
   },
 
   pages: {
-    home: { heading: 'Yaşanacak mekânlar, sade çizgiler.' },
     about: { heading: 'Hakkımızda', documentTitle: 'Hakkımızda' },
     services: { heading: 'Hizmetler', documentTitle: 'Hizmetler' },
     projects: { heading: 'Projeler' },
     contact: { heading: 'İletişim', documentTitle: 'İletişim' },
     notFound: { heading: 'Sayfa bulunamadı', documentTitle: 'Sayfa bulunamadı' },
+  },
+
+  home: {
+    documentTitle: 'Dörtçatı Mimarlık — Mimarlık ve iç mimarlık | Konsept çalışma',
+    metaDescription:
+      'Dörtçatı Mimarlık; konut, ticari ve iç mekân projeleri üreten kurgusal bir mimarlık ofisinin kurumsal sitesi. Bu site bir konsept çalışmadır, gerçek bir firmayı temsil etmez.',
+    hero: {
+      lead: 'Konut, ticari ve iç mekân projelerini ilk çizgiden şantiyenin son gününe kadar tek bir ekiple yürütüyoruz.',
+      primaryCta: 'Projeleri incele',
+      secondaryCta: 'Teklif al',
+      imageCaption: (projectName, drawing) => `${projectName} — ${drawing}`,
+    },
+    intro: {
+      heading: 'Yaklaşım',
+      body: 'Her projeye arsayı, iklimi ve orada yaşayacak insanları dinleyerek başlıyoruz. Az sayıda malzeme, açık bir plan ve doğru yerleştirilmiş pencerelerle uzun yıllar rahatça kullanılacak mekânlar tasarlıyoruz.',
+      link: 'Hakkımızda',
+    },
+    featured: { heading: 'Öne çıkan projeler', link: 'Tüm projeler' },
+    services: { heading: 'Hizmetler', link: 'Hizmetleri gör' },
+    closing: { heading: 'Aklınızdaki mekânı birlikte konuşalım.', cta: 'İletişime geçin' },
   },
 
   notFoundBody: 'Aradığınız sayfa taşınmış ya da hiç var olmamış olabilir.',

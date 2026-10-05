@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { getAdjacentProjects, sortProjects } from './projectQueries'
-import { categories, DRAWING_HEIGHT, DRAWING_WIDTH, projects } from './projects'
+import { categories, DRAWING_HEIGHT, DRAWING_WIDTH, getCategory, projects } from './projects'
 
 describe('proje verisi', () => {
   it('3 kategori ve her kategoride 3 olmak üzere 9 proje var', () => {
@@ -74,5 +74,14 @@ describe('proje verisi', () => {
     expect(first?.previous.id).toBe(ordered[ordered.length - 1].id)
     expect(first?.next.id).toBe(ordered[1].id)
     for (const project of projects) expect(getAdjacentProjects(ordered, project.id)).not.toBeNull()
+  })
+
+  it('getCategory id ile bulur, tanımsız id için hata verir', () => {
+    expect(getCategory('cat-konut').name).toBe('Konut')
+    expect(() => getCategory('cat-yok')).toThrow()
+  })
+
+  it('en az 3 öne çıkan proje var (ana sayfa için)', () => {
+    expect(projects.filter((p) => p.featured).length).toBeGreaterThanOrEqual(3)
   })
 })

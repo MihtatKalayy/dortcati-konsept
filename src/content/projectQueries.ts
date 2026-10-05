@@ -15,6 +15,13 @@ export function sortProjects(list: readonly Project[]): Project[] {
   )
 }
 
+/** Öne çıkan projelerden ilk `count` tanesi, sortProjects sırasıyla. */
+export function getFeaturedProjects(list: readonly Project[], count: number): Project[] {
+  return sortProjects(list)
+    .filter((project) => project.featured)
+    .slice(0, count)
+}
+
 export function findProjectBySlug(list: readonly Project[], slug: string): Project | undefined {
   return list.find((project) => project.slug === slug)
 }
