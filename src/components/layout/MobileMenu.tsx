@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Link, NavLink, useLocation } from 'react-router'
 import { site } from '../../content/site'
+import { useModalDialog } from '../../hooks/useModalDialog'
 import { paths } from '../../routes/paths'
 import { navLinkClass } from './navLinkClass'
 
@@ -20,23 +21,7 @@ export function MobileMenu() {
   const dialogRef = useRef<HTMLDialogElement>(null)
   const close = useCallback(() => setOpenedAt(null), [])
 
-  useEffect(() => {
-    const dialog = dialogRef.current
-    if (!dialog) return
-    if (isOpen && !dialog.open) dialog.showModal()
-    if (!isOpen && dialog.open) dialog.close()
-  }, [isOpen])
-
-  // Menü açıkken arka plan kaymasın.
-  useEffect(() => {
-    if (!isOpen) return
-    const root = document.documentElement
-    const previous = root.style.overflow
-    root.style.overflow = 'hidden'
-    return () => {
-      root.style.overflow = previous
-    }
-  }, [isOpen])
+  useModalDialog(dialogRef, isOpen)
 
   // Ekran masaüstü genişliğine çıkarsa menüyü kapat.
   useEffect(() => {
