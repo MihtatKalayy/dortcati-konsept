@@ -70,6 +70,20 @@ export const site: SiteContent = {
 
   projectDetail: {
     backToProjects: 'Tüm projeler',
+    breadcrumbLabel: 'Konum yolu',
+    factsHeading: 'Künye',
+    facts: { category: 'Kategori', year: 'Yıl', location: 'Konum', area: 'Alan', scope: 'Kapsam' },
+    descriptionHeading: 'Proje hakkında',
+    galleryHeading: 'Çizimler',
+    openImageHint: '(tam ekran aç)',
+    viewer: {
+      label: (projectName) => `${projectName} çizimleri`,
+      close: 'Kapat',
+      previous: 'Önceki görsel',
+      next: 'Sonraki görsel',
+      position: (current, total, caption) => `${current} / ${total} — ${caption}`,
+    },
+    adjacent: { label: 'Diğer projeler', previous: 'Önceki proje', next: 'Sonraki proje' },
   },
 
   ui: {

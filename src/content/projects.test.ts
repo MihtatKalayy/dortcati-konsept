@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest'
+import { getAdjacentProjects, sortProjects } from './projectQueries'
 import { categories, DRAWING_HEIGHT, DRAWING_WIDTH, projects } from './projects'
 
 describe('proje verisi', () => {
@@ -65,5 +66,13 @@ describe('proje verisi', () => {
 
   it('en az bir öne çıkan proje var', () => {
     expect(projects.some((p) => p.featured)).toBe(true)
+  })
+
+  it('önceki/sonraki geçişi Tümü sırasını izler ve döngüseldir', () => {
+    const ordered = sortProjects(projects)
+    const first = getAdjacentProjects(ordered, ordered[0].id)
+    expect(first?.previous.id).toBe(ordered[ordered.length - 1].id)
+    expect(first?.next.id).toBe(ordered[1].id)
+    for (const project of projects) expect(getAdjacentProjects(ordered, project.id)).not.toBeNull()
   })
 })
