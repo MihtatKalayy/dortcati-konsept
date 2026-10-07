@@ -8,10 +8,24 @@
       name="description"
       content="Dörtçatı Mimarlık; konut, ticari ve iç mekân projeleri üreten kurgusal bir mimarlık ofisinin kurumsal sitesi. Bu site bir konsept çalışmadır, gerçek bir firmayı temsil etmez."
     />
+    <!--
+      Fontlar kendi sunucumuzdan, ilk çizimden önce yüklenmeye başlar (düzen kaymasını önler).
+      <link rel="preload"> yerine FontFace kullanılır: aynı sekmede başka bir sayfa tam
+      yüklendiğinde yazı tipi bellekten geldiği için Chrome "kullanılmayan preload" uyarısı veriyordu.
+      Dosya adları sürümlüdür (-v1); yazı tipi değişirse ad da değişmelidir (uzun süreli önbellek).
+    -->
+    <script>
+      for (const [family, url, weight] of [
+        ['Fraunces', '/fonts/fraunces-latin-tr-v1.woff2', '300 700'],
+        ['Inter', '/fonts/inter-latin-tr-v1.woff2', '400 700'],
+      ]) {
+        const face = new FontFace(family, `url(${url}) format('woff2')`, { weight, display: 'swap' })
+        document.fonts.add(face)
+        face.load()
+      }
+    </script>
     <meta name="theme-color" content="#f6f4ef" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <link rel="preload" href="/src/assets/fonts/inter-latin-tr.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="/src/assets/fonts/fraunces-latin-tr.woff2" as="font" type="font/woff2" crossorigin />
   </head>
   <body>
     <div id="root"></div>
