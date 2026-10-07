@@ -17,10 +17,10 @@ export function Footer() {
           <h2 className="font-sans text-sm font-semibold tracking-widest text-gray-300 uppercase">
             {footer.navHeading}
           </h2>
-          <ul className="mt-4 flex flex-col gap-2">
+          <ul className="mt-2 flex flex-col">
             {nav.map((item) => (
               <li key={item.id}>
-                <Link to={paths[item.page]} className="underline-offset-4 hover:underline">
+                <Link to={paths[item.page]} className="inline-flex min-h-11 items-center underline-offset-4 hover:underline">
                   {item.label}
                 </Link>
               </li>
@@ -32,11 +32,11 @@ export function Footer() {
           <h2 className="font-sans text-sm font-semibold tracking-widest text-gray-300 uppercase">
             {footer.contactHeading}
           </h2>
-          <address className="mt-4 flex flex-col gap-2 not-italic">
-            <a href={`mailto:${contact.email}`} className="break-all underline-offset-4 hover:underline">
+          <address className="mt-2 flex flex-col items-start gap-1 not-italic">
+            <a href={`mailto:${contact.email}`} className="inline-flex min-h-11 items-center break-all underline-offset-4 hover:underline">
               {contact.email}
             </a>
-            <a href={`tel:${contact.phoneHref}`} className="underline-offset-4 hover:underline">
+            <a href={`tel:${contact.phoneHref}`} className="inline-flex min-h-11 items-center underline-offset-4 hover:underline">
               {contact.phone}
             </a>
             <span className="text-gray-300">

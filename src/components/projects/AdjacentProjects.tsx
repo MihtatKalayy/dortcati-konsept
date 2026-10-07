@@ -2,6 +2,7 @@ import { Link } from 'react-router'
 import { site } from '../../content/site'
 import type { Project } from '../../content/types'
 import { paths, projectDetailPath } from '../../routes/paths'
+import { textLinkClass } from '../ui/styles'
 
 interface AdjacentProjectsProps {
   previous: Project
@@ -37,7 +38,7 @@ export function AdjacentProjects({ previous, next }: AdjacentProjectsProps) {
         </li>
       </ul>
       <p className="border-t border-gray-200 pt-8 text-center">
-        <Link to={paths.projects} className="font-medium text-accent underline underline-offset-4 hover:text-accent-strong">
+        <Link to={paths.projects} className={textLinkClass}>
           {backToProjects}
         </Link>
       </p>

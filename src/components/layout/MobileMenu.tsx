@@ -37,7 +37,7 @@ export function MobileMenu() {
     <>
       <button
         type="button"
-        className="px-1 py-2 text-base font-medium md:hidden"
+        className="min-h-11 min-w-11 px-1 py-2 text-base font-medium md:hidden"
         aria-haspopup="dialog"
         aria-expanded={isOpen}
         aria-controls={MENU_ID}
@@ -54,10 +54,10 @@ export function MobileMenu() {
         className="m-0 h-dvh max-h-none w-full max-w-none overflow-y-auto bg-paper text-ink"
       >
         <div className="container-page flex h-16 items-center justify-between border-b border-gray-200">
-          <Link to={paths.home} onClick={close} className="font-display text-xl">
+          <Link to={paths.home} onClick={close} className="inline-flex min-h-11 items-center font-display text-xl">
             {site.brand.name}
           </Link>
-          <button type="button" className="px-1 py-2 text-base font-medium" onClick={close}>
+          <button type="button" className="min-h-11 min-w-11 px-1 py-2 text-base font-medium" onClick={close}>
             {site.ui.menuClose}
           </button>
         </div>

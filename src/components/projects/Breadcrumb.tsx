@@ -10,7 +10,7 @@ interface BreadcrumbProps {
 
 /** Projeler › Kategori › Proje adı. Kategori bağlantısı filtreli Projeler sayfasını açar. */
 export function Breadcrumb({ project, category }: BreadcrumbProps) {
-  const link = 'underline-offset-4 hover:text-accent hover:underline'
+  const link = 'inline-flex min-h-11 min-w-11 items-center underline-offset-4 hover:text-accent hover:underline'
   const separator = (
     <span aria-hidden="true" className="text-gray-500">
       ›

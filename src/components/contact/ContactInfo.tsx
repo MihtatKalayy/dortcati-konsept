@@ -6,7 +6,7 @@ export function ContactInfo() {
   const { contact } = site
   const { info } = site.contactPage
   const row = 'border-b border-gray-200 py-4'
-  const link = 'underline-offset-4 hover:text-accent hover:underline'
+  const link = 'inline-flex min-h-11 items-center underline-offset-4 hover:text-accent hover:underline'
 
   return (
     <section aria-labelledby="iletisim-bilgileri">
@@ -27,7 +27,7 @@ export function ContactInfo() {
           </div>
           <div className={row}>
             <dt className="text-sm text-gray-600">{info.phone}</dt>
-            <dd className="mt-1">
+            <dd>
               <a href={`tel:${contact.phoneHref}`} className={link}>
                 {contact.phone}
               </a>
@@ -35,7 +35,7 @@ export function ContactInfo() {
           </div>
           <div className={row}>
             <dt className="text-sm text-gray-600">{info.email}</dt>
-            <dd className="mt-1 break-all">
+            <dd className="break-all">
               <a href={`mailto:${contact.email}`} className={link}>
                 {contact.email}
               </a>
