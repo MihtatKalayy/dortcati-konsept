@@ -7,12 +7,14 @@ import { ImageViewer } from '../components/projects/ImageViewer'
 import { ProjectFacts } from '../components/projects/ProjectFacts'
 import { ProjectGallery } from '../components/projects/ProjectGallery'
 import { NotFoundView } from '../components/ui/NotFoundView'
+import { ButtonLink } from '../components/ui/ButtonLink'
 import { PageHeading } from '../components/ui/PageHeading'
 import { findProjectBySlug, getAdjacentProjects, sortProjects } from '../content/projectQueries'
 import { getCategory, projects } from '../content/projects'
 import { site } from '../content/site'
 import type { Project } from '../content/types'
 import { useDocumentTitle } from '../hooks/useDocumentTitle'
+import { contactPath } from '../routes/paths'
 
 // Önceki/sonraki geçişi Projeler sayfasındaki "Tümü" sırasını izler.
 const orderedProjects = sortProjects(projects)
@@ -59,6 +61,10 @@ function ProjectDetail({ project }: { project: Project }) {
             {project.description.map((paragraph) => (
               <p key={paragraph}>{paragraph}</p>
             ))}
+          </div>
+          <div className="mt-12 flex max-w-prose flex-col items-start gap-4 border-t border-gray-200 pt-8 sm:flex-row sm:items-center sm:justify-between">
+            <p className="font-display text-h3">{copy.quoteCta.text}</p>
+            <ButtonLink to={contactPath(category.slug)}>{copy.quoteCta.button}</ButtonLink>
           </div>
         </section>
       </div>
