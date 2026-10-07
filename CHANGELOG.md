@@ -6,6 +6,10 @@ Bu dosyada projedeki önemli değişiklikler listelenir.
 
 ### Eklendi
 
+- Open Graph ve Twitter kart etiketleri, 1200×630 paylaşım görseli (`public/og-image.png`, şablonu `scripts/og/og-image.html`).
+- Projeler, proje detayı ve 404 sayfalarına özgü açıklama meta etiketi; sayfa başlığı ve açıklaması paylaşım etiketlerine de yansır. 404 görünümü `noindex` ekler.
+- Sayfa parçası yüklenirken üstte ince ilerleme çubuğu ve `<main aria-busy>`.
+- PROJE.md: Lighthouse önce/sonra puanları, ölçüm koşulları, paket boyutları ve açık kalan bulgular.
 - İletişim sayfası: iletişim bilgileri, harita yerine stilize konum çizimi ("Konum örnektir"), konsept notu ve dört adımlı teklif formu (Proje, Ayrıntılar, İletişim, Özet); ilerleme göstergesi, alan altında hata mesajları, ilk hatalı alana odak, adım duyuruları, özet ve "Düzenle", başarı ekranı ve "Yeni talep oluştur".
 - Teklif formu mantığı (`src/quote/quoteForm.ts`): saf durum, adım doğrulama, ileri/geri, ulaşılmış adıma dönme, gönderim ve özet üretimi; 28 birim testi.
 - 81 il listesi (`src/content/provinces.ts`, plaka kodlarıyla) ve testleri.
@@ -40,6 +44,12 @@ Bu dosyada projedeki önemli değişiklikler listelenir.
 
 ### Değişti
 
+- Fontlar `public/fonts/` altında sürümlü adlarla ve satır içi `FontFace` betiğiyle yüklenir (preload kaldırıldı): CLS her genişlikte 0, konsolda uyarı yok. `/fonts/*` için uzun önbellek ve gerçek 404 kuralı.
+- Dokunma hedefleri en az 44 px (header logosu ve menü düğmesi, menü, footer, yol göstergesi, metin bağlantıları, iletişim bağlantıları; ana sayfadaki hizmet satırının tamamı tıklanabilir).
+- Uzun kelimeler dar ekranda taşmaz (`overflow-wrap: anywhere`, başlıklarda heceleme).
+- Çizim üreticisi ardışık aynı stildeki çizgileri birleştirir; çizimler %31 küçüldü (görünüm aynı).
+- Kategoriler ayrı modülde (`content/categories.ts`); İletişim sayfası artık proje verisini yüklemez.
+- Kullanılmayan dışa aktarımlar dosya içine alındı.
 - Son yer tutucu kaldırıldı: `PlaceholderPage` bileşeni ve yer tutucu metni silindi; 404 görünümü kendi bileşeniyle çizilir.
 - Proje detay sayfasına teklif çağrısı eklendi.
 - Ana sayfadaki hizmet adları Hizmetler sayfasında ilgili hizmetin çapasına bağlanır.
