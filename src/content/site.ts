@@ -34,7 +34,6 @@ export const site: SiteContent = {
 
   pages: {
     projects: { heading: 'Projeler' },
-    contact: { heading: 'İletişim', documentTitle: 'İletişim' },
     notFound: { heading: 'Sayfa bulunamadı', documentTitle: 'Sayfa bulunamadı' },
   },
 
@@ -124,6 +123,109 @@ export const site: SiteContent = {
     },
   },
 
+  contactPage: {
+    heading: 'İletişim',
+    documentTitle: 'İletişim ve teklif',
+    metaDescription:
+      'Dörtçatı Mimarlık ile iletişim ve dört adımlı teklif formu. Bu site bir konsept çalışmadır; form hiçbir yere veri göndermez.',
+    intro:
+      'Projenizi birkaç adımda anlatın; size en uygun çalışma biçimini birlikte belirleyelim. Doğrudan ulaşmak isterseniz iletişim bilgilerimizi de bu sayfada bulabilirsiniz.',
+    info: {
+      heading: 'İletişim bilgileri',
+      address: 'Adres',
+      phone: 'Telefon',
+      email: 'E-posta',
+      hours: 'Çalışma saatleri',
+      mapCaption: 'Konum örnektir.',
+      mapAlt: 'Stilize konum çizimi: sokak ızgarası içinde vurgu renginde bir işaret. Gerçek bir haritayı göstermez.',
+    },
+    form: {
+      heading: 'Teklif formu',
+      conceptNote: 'Bu site bir konsept çalışmadır; girdiğiniz bilgiler hiçbir yere gönderilmez ve kaydedilmez.',
+      progressLabel: 'Form adımları',
+      stepPosition: (current, total) => `Adım ${current} / ${total}`,
+      stepAnnouncement: (current, total, title) => `Adım ${current} / ${total}: ${title}`,
+      steps: { project: 'Proje', details: 'Ayrıntılar', contact: 'İletişim', summary: 'Özet' },
+      optional: '(isteğe bağlı)',
+      fields: {
+        projectType: { legend: 'Proje türü', otherOption: { id: 'diger', label: 'Diğer' } },
+        services: { legend: 'İlgilendiğiniz hizmetler', hint: 'Birden fazla seçebilirsiniz.' },
+        area: { label: 'Yaklaşık alan', hint: 'Metrekare olarak, tam sayı.', unit: 'm²' },
+        province: { label: 'İl', placeholder: 'İl seçin' },
+        budget: {
+          legend: 'Yaklaşık proje bütçesi',
+          hint: 'Uygulama dahil genel bir aralık seçmeniz yeterli; bu aralıklar bir fiyat listesi değildir.',
+          options: [
+            { id: 'butce-1', label: '1 milyon ₺ altı' },
+            { id: 'butce-2', label: '1–3 milyon ₺' },
+            { id: 'butce-3', label: '3–10 milyon ₺' },
+            { id: 'butce-4', label: '10 milyon ₺ üzeri' },
+            { id: 'butce-yok', label: 'Belirtmek istemiyorum' },
+          ],
+        },
+        timing: {
+          legend: 'Ne zaman başlamak istiyorsunuz?',
+          options: [
+            { id: 'zaman-hemen', label: 'Hemen' },
+            { id: 'zaman-3ay', label: '3 ay içinde' },
+            { id: 'zaman-6ay', label: '6 ay içinde' },
+            { id: 'zaman-belirsiz', label: 'Henüz belli değil' },
+          ],
+        },
+        description: {
+          label: 'Proje açıklaması',
+          hint: 'Arsa, mevcut durum veya beklentileriniz hakkında kısa bilgi.',
+          counter: (count, max) => `${count} / ${max} karakter`,
+        },
+        fullName: { label: 'Ad soyad' },
+        phone: { label: 'Telefon', hint: 'Örn. 0500 000 00 00' },
+        email: { label: 'E-posta' },
+        contactPreference: {
+          legend: 'Size nasıl ulaşalım?',
+          options: [
+            { id: 'telefon', label: 'Telefon' },
+            { id: 'eposta', label: 'E-posta' },
+          ],
+        },
+        consent: {
+          label: 'Bilgilendirme metnini okudum.',
+          text: 'Örnek metin: Bu formda paylaştığınız bilgiler yalnızca talebinizi değerlendirmek için kullanılır ve üçüncü kişilerle paylaşılmaz. (Konsept çalışmada hiçbir bilgi gönderilmez veya saklanmaz.)',
+          summaryLabel: 'Bilgilendirme metni',
+          summaryValue: 'Okundu',
+        },
+      },
+      errors: {
+        required: 'Bu alan zorunludur.',
+        invalidOption: 'Lütfen listeden bir seçenek seçin.',
+        servicesRequired: 'En az bir hizmet seçin.',
+        areaInvalid: 'Alanı pozitif bir tam sayı olarak girin.',
+        areaRange: (min, max) =>
+          `Alan ${min.toLocaleString('tr-TR')} ile ${max.toLocaleString('tr-TR')} m² arasında olmalıdır.`,
+        descriptionTooLong: (max) => `Açıklama en fazla ${max} karakter olabilir.`,
+        nameInvalid: 'Adınızı ve soyadınızı girin.',
+        phoneInvalid: 'Geçerli bir telefon numarası girin (ör. 0500 000 00 00).',
+        emailInvalid: 'Geçerli bir e-posta adresi girin.',
+        consentRequired: 'Devam etmek için bilgilendirme metnini onaylayın.',
+      },
+      errorAnnouncement: (count) => (count === 1 ? '1 alanı kontrol edin.' : `${count} alanı kontrol edin.`),
+      buttons: {
+        next: 'İleri',
+        back: 'Geri',
+        submit: 'Talebi gönder',
+        edit: 'Düzenle',
+        editLabel: (step) => `${step} adımını düzenle`,
+      },
+      notProvided: 'Belirtilmedi',
+      success: {
+        heading: 'Teşekkürler',
+        body: 'Formu eksiksiz doldurdunuz. Gerçek bir ofiste ekip, seçtiğiniz iletişim yolundan size dönüş yapardı.',
+        note: 'Bu site bir konsept çalışmadır; talebiniz hiçbir yere gönderilmedi ve kaydedilmedi.',
+        newRequest: 'Yeni talep oluştur',
+        projectsLink: 'Projeleri incele',
+      },
+    },
+  },
+
   notFoundBody: 'Aradığınız sayfa taşınmış ya da hiç var olmamış olabilir.',
 
   footer: {
@@ -153,6 +255,10 @@ export const site: SiteContent = {
 
   projectDetail: {
     backToProjects: 'Tüm projeler',
+    quoteCta: {
+      text: 'Benzer bir proje mi düşünüyorsunuz?',
+      button: 'Teklif alın',
+    },
     breadcrumbLabel: 'Konum yolu',
     factsHeading: 'Künye',
     facts: { category: 'Kategori', year: 'Yıl', location: 'Konum', area: 'Alan', scope: 'Kapsam' },
@@ -178,7 +284,6 @@ export const site: SiteContent = {
     menuClose: 'Kapat',
     mobileMenuLabel: 'Site menüsü',
     pageLoading: 'Sayfa yükleniyor…',
-    placeholderBody: 'Bu sayfanın içeriği sonraki adımlarda eklenecek.',
     routeAnnouncement: (pageHeading) => `${pageHeading} sayfası açıldı`,
     backToHome: 'Ana sayfaya dön',
   },

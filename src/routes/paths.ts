@@ -28,3 +28,12 @@ export function projectsPath(categorySlug?: string): string {
 export function serviceAnchorPath(serviceSlug: string): string {
   return `${paths.services}#${encodeURIComponent(serviceSlug)}`
 }
+
+/** İletişim sayfasında proje türünü önceden seçen sorgu parametresi (kategori slug'ı). */
+export const quoteProjectTypeParam = 'tur'
+
+/** İletişim sayfasının adresi; kategori verilirse teklif formunda proje türü seçili gelir. */
+export function contactPath(categorySlug?: string): string {
+  if (!categorySlug) return paths.contact
+  return `${paths.contact}?${new URLSearchParams({ [quoteProjectTypeParam]: categorySlug })}`
+}
