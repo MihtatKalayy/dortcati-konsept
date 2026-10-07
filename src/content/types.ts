@@ -44,6 +44,8 @@ export interface PageCopy {
   heading: string
   /** Sekme başlığı; boşsa marka adı ve slogan kullanılır. */
   documentTitle?: string
+  /** Açıklama meta etiketi. */
+  metaDescription?: string
 }
 
 export interface UiCopy {
@@ -120,11 +122,13 @@ export interface ProjectsPageCopy {
   resultStatus: (count: number, categoryName: string | null) => string
   emptyResult: string
   documentTitle: (categoryName: string | null) => string
+  metaDescription: (categoryName: string | null) => string
   meta: { category: string; year: string; location: string }
 }
 
 export interface ProjectDetailCopy {
   backToProjects: string
+  metaDescription: (projectName: string, summary: string) => string
   /** Proje kategorisi seçili olarak teklif formunu açan çağrı. */
   quoteCta: { text: string; button: string }
   breadcrumbLabel: string

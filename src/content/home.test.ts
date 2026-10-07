@@ -12,4 +12,16 @@ describe('ana sayfa meta bilgileri', () => {
     expect(indexHtml).toContain(`<title>${site.home.documentTitle}</title>`)
     expect(indexHtml.replace(/\s+/g, ' ')).toContain(`content="${site.home.metaDescription}"`)
   })
+
+  it('Open Graph ve Twitter etiketleri ana sayfa başlığı ve açıklamasıyla aynı', () => {
+    const html = indexHtml.replace(/\s+/g, ' ')
+    for (const key of ['property="og:title"', 'name="twitter:title"']) {
+      expect(html).toContain(`${key} content="${site.home.documentTitle}"`)
+    }
+    for (const key of ['property="og:description"', 'name="twitter:description"']) {
+      expect(html).toContain(`${key} content="${site.home.metaDescription}"`)
+    }
+    expect(html).toContain('property="og:image" content="/og-image.png"')
+    expect(html).toContain('name="twitter:card" content="summary_large_image"')
+  })
 })
