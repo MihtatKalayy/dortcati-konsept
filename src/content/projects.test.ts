@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { getAdjacentProjects, sortProjects } from './projectQueries'
-import { categories, DRAWING_HEIGHT, DRAWING_WIDTH, getCategory, projects } from './projects'
+import { categories, getCategory } from './categories'
+import { DRAWING_HEIGHT, DRAWING_WIDTH, projects } from './projects'
 
 describe('proje verisi', () => {
   it('3 kategori ve her kategoride 3 olmak üzere 9 proje var', () => {

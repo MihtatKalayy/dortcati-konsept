@@ -1,5 +1,5 @@
 import { DRAWING_HEIGHT, DRAWING_WIDTH } from './drawingSize'
-import type { Project, ProjectCategory, ProjectImage } from './types'
+import type { Project, ProjectImage } from './types'
 
 export { DRAWING_HEIGHT, DRAWING_WIDTH }
 
@@ -8,18 +8,6 @@ export { DRAWING_HEIGHT, DRAWING_WIDTH }
  * Görseller `scripts/drawings` ile üretilen özgün SVG çizimlerdir.
  */
 
-export const categories: ProjectCategory[] = [
-  { id: 'cat-konut', slug: 'konut', name: 'Konut' },
-  { id: 'cat-ticari', slug: 'ticari', name: 'Ticari' },
-  { id: 'cat-ic-mekan', slug: 'ic-mekan', name: 'İç Mekân' },
-]
-
-/** Kategoriyi id ile bulur; tanımsız id veri hatasıdır ve fırlatır. */
-export function getCategory(id: string): ProjectCategory {
-  const category = categories.find((c) => c.id === id)
-  if (!category) throw new Error(`Tanımsız kategori: ${id}`)
-  return category
-}
 
 
 type DrawingFile = 'kapak' | 'galeri-1' | 'galeri-2' | 'galeri-3'

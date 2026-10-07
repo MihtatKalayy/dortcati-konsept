@@ -4,7 +4,7 @@
  * Form verisi yalnızca bellekte tutulur; hiçbir yere yazılmaz veya gönderilmez.
  */
 import { formatArea } from '../content/format'
-import { categories } from '../content/projects'
+import { categories } from '../content/categories'
 import { provinces } from '../content/provinces'
 import { services } from '../content/services'
 import { site } from '../content/site'
@@ -16,8 +16,8 @@ export const SUMMARY_STEP = QUOTE_STEPS.length - 1
 export const AREA_MIN = 5
 export const AREA_MAX = 100_000
 export const DESCRIPTION_MAX = 1000
-export const NAME_MAX = 100
-export const EMAIL_MAX = 254
+const NAME_MAX = 100
+const EMAIL_MAX = 254
 
 const fields = site.contactPage.form.fields
 
@@ -48,10 +48,10 @@ export interface QuoteValues {
 }
 
 export type QuoteField = keyof QuoteValues
-export type QuoteErrors = Partial<Record<QuoteField, QuoteErrorCode>>
+type QuoteErrors = Partial<Record<QuoteField, QuoteErrorCode>>
 
 /** Her adımın alanları, ekrandaki sırayla (ilk hatalı alanı bulmak için). */
-export const STEP_FIELDS: Record<QuoteStepId, readonly QuoteField[]> = {
+const STEP_FIELDS: Record<QuoteStepId, readonly QuoteField[]> = {
   project: ['projectType', 'services'],
   details: ['area', 'province', 'budget', 'timing', 'description'],
   contact: ['fullName', 'phone', 'email', 'contactPreference', 'consent'],
@@ -70,7 +70,7 @@ export interface QuoteState {
   validationAttempt: number
 }
 
-export const emptyValues: QuoteValues = {
+const emptyValues: QuoteValues = {
   projectType: '',
   services: [],
   area: '',
@@ -253,7 +253,7 @@ export function firstInvalidField(state: QuoteState): QuoteField | undefined {
   return STEP_FIELDS[currentStepId(state)].find((field) => state.errors[field])
 }
 
-export interface SummarySection {
+interface SummarySection {
   step: number
   title: string
   items: { label: string; value: string }[]
