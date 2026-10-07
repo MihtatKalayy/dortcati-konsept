@@ -6,6 +6,11 @@ Bu dosyada projedeki önemli değişiklikler listelenir.
 
 ### Eklendi
 
+- İletişim sayfası: iletişim bilgileri, harita yerine stilize konum çizimi ("Konum örnektir"), konsept notu ve dört adımlı teklif formu (Proje, Ayrıntılar, İletişim, Özet); ilerleme göstergesi, alan altında hata mesajları, ilk hatalı alana odak, adım duyuruları, özet ve "Düzenle", başarı ekranı ve "Yeni talep oluştur".
+- Teklif formu mantığı (`src/quote/quoteForm.ts`): saf durum, adım doğrulama, ileri/geri, ulaşılmış adıma dönme, gönderim ve özet üretimi; 28 birim testi.
+- 81 il listesi (`src/content/provinces.ts`, plaka kodlarıyla) ve testleri.
+- `?tur=<kategori-slug>` ön seçimi ve proje detay sayfasında projenin kategorisiyle formu açan "Teklif alın" çağrısı.
+- Konum çizimi `scripts/drawings/contact.ts` ile üretilir (`npm run cizimler`).
 - Hizmetler sayfası: giriş, numaralı hizmet listesi (ayrıntılı açıklama ve 3–5 maddelik kapsam; her hizmet `/hizmetler#<slug>` çapasıyla), 5 adımlı çalışma süreci (sıralı liste), yerel `<details>` ile 5 sık sorulan soru ve kapanış çağrısı.
 - Hakkımızda sayfası: büyük puntolu açılış, ofisin hikâyesi, 4 tasarım ilkesi, baş harfli avatarlarla 4 kişilik kurgusal ekip ve görünür "Kurgusal ekip" notu, iki özgün çizim (atölye ve "dört çatı"), Projeler ve İletişim bağlantıları.
 - İçerik verisi: hizmet kapsam maddeleri (`includes`), çalışma süreci (`process.ts`), sık sorulan sorular (`faq.ts`), ekip (`team.ts`), Hakkımızda çizimleri (`aboutImages.ts`); hepsi sabit id ile ve birim testleriyle (SSS cevaplarında kesin süre/fiyat/garanti olmadığı da denetlenir).
@@ -35,6 +40,8 @@ Bu dosyada projedeki önemli değişiklikler listelenir.
 
 ### Değişti
 
+- Son yer tutucu kaldırıldı: `PlaceholderPage` bileşeni ve yer tutucu metni silindi; 404 görünümü kendi bileşeniyle çizilir.
+- Proje detay sayfasına teklif çağrısı eklendi.
 - Ana sayfadaki hizmet adları Hizmetler sayfasında ilgili hizmetin çapasına bağlanır.
 - Sayfa geçişinde adreste çapa varsa odak h1 yerine çapalanan öğeye taşınır (`RouteChangeAnnouncer`).
 - Hakkımızda ve Hizmetler sayfalarına özgü sekme başlığı ve açıklama meta etiketi; bu sayfaların yer tutucu metinleri kaldırıldı. Yer tutucu olarak yalnızca İletişim kaldı.
