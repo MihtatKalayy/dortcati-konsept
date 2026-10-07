@@ -75,6 +75,8 @@
     font-family: var(--font-sans);
     font-size: 1.0625rem;
     line-height: 1.6;
+    /* Uzun kelimeler (ör. uzun proje adları, e-posta) dar ekranda taşmasın; yalnızca sığmadığında bölünür. */
+    overflow-wrap: anywhere;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
@@ -85,6 +87,7 @@
     font-family: var(--font-display);
     font-weight: 400;
     text-wrap: balance;
+    hyphens: auto;
   }
 
   :focus-visible {
