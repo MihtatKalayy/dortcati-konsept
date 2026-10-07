@@ -227,7 +227,7 @@ Başlıklar ekran genişliğine göre `clamp()` ile akıcı ölçeklenir:
 | Hizmetler | `/hizmetler`; her hizmetin çapası `#<hizmet-slug>` (ör. `/hizmetler#renovasyon`) |
 | Projeler | `/projeler`; kategori filtresi `?kategori=<kategori-slug>` (ör. `/projeler?kategori=ic-mekan`). Geçersiz veya eksik değer "Tümü" gösterir. |
 | Proje detayı | `/projeler/<proje-slug>` (ör. `/projeler/zeytinlik-evi`); olmayan slug 404 görünümü gösterir. |
-| İletişim (teklif formu) | `/iletisim` |
+| İletişim (teklif formu) | `/iletisim`; isteğe bağlı `?tur=<kategori-slug>` proje türünü önceden seçer (ör. `/iletisim?tur=konut`), geçersiz değer yok sayılır |
 | 404 | Eşleşmeyen tüm adresler |
 
 Adresler `src/routes/paths.ts` içinde tek yerde tanımlıdır. Sabit dosyalar: `/llms.txt`, `/robots.txt`, `/favicon.svg`, `/404.html` (Netlify'ın gerçek 404 yanıtlarının gövdesi).
@@ -238,7 +238,7 @@ Adresler `src/routes/paths.ts` içinde tek yerde tanımlıdır. Sabit dosyalar: 
 .
 ├── index.html               # Dil, başlık, açıklama, tema rengi, favicon, font preload
 ├── netlify.toml             # Build, yönlendirme, 404 kuralları, başlıklar
-├── scripts/drawings/        # Proje ve Hakkımızda çizimlerini üreten betik (npm run cizimler)
+├── scripts/drawings/        # Proje, Hakkımızda ve konum çizimlerini üreten betik (npm run cizimler)
 ├── public/                  # Olduğu gibi kopyalanan dosyalar
 │   ├── 404.html
 │   ├── favicon.svg
@@ -249,18 +249,23 @@ Adresler `src/routes/paths.ts` içinde tek yerde tanımlıdır. Sabit dosyalar: 
     ├── assets/fonts/        # Alt kümelenmiş woff2 fontlar ve OFL lisansları
     ├── assets/projects/     # Üretilmiş SVG çizimler: <proje-id>/{kapak,galeri-1,galeri-2,galeri-3}.svg
     ├── assets/about/        # Hakkımızda çizimleri: atolye.svg, dort-cati.svg
+    ├── assets/contact/      # Stilize konum çizimi: konum.svg
     ├── components/
     │   ├── layout/          # Layout, Header, MobileMenu, Footer, SkipLink, RouteChangeAnnouncer
     │   ├── about/           # TeamMemberCard
+    │   ├── contact/         # ContactInfo
+    │   ├── quote/           # QuoteForm, QuoteProgress, QuoteSummary, QuoteSuccess, fields (alan bileşenleri)
     │   ├── services/        # FaqList
     │   ├── projects/        # ProjectFilter, ProjectCard, Breadcrumb, ProjectFacts, ProjectGallery,
     │                        # ImageButton, ImageViewer (tam ekran), AdjacentProjects
-    │   └── ui/              # styles.ts, PageHeading, ButtonLink, PlaceholderPage, NotFoundView, TextLink, PageLoading, LogoMark
+    │   └── ui/              # styles.ts, PageHeading, ButtonLink, NotFoundView, TextLink, PageLoading, LogoMark
     ├── content/             # Tek içerik kaynağı: site.ts (metinler), projects.ts (proje ve kategori verisi),
-    │                        # services.ts, process.ts, faq.ts, team.ts, aboutImages.ts, drawingSize.ts,
+    │                        # services.ts, process.ts, faq.ts, team.ts, provinces.ts (81 il),
+    │                        # aboutImages.ts, contactImages.ts, drawingSize.ts,
     │                        # projectQueries.ts (saf sorgu işlevleri), format.ts, types.ts ve testler
     ├── hooks/               # useDocumentTitle, useMetaDescription, useModalDialog
     ├── pages/               # Her sayfa ayrı parça olarak yüklenir
+    ├── quote/               # Teklif formunun saf durum/doğrulama işlevleri (quoteForm.ts), hata mesajları ve testleri
     ├── routes/              # Adresler (paths.ts) ve yönlendirici (router.tsx)
     └── styles/index.css     # Tailwind teması: tasarım belirteçleri, @font-face
 ```
@@ -302,6 +307,14 @@ Adresler `src/routes/paths.ts` içinde tek yerde tanımlıdır. Sabit dosyalar: 
 - **Tasarım ilkeleri:** Bağlama saygı, Yalınlık, Doğal ışık, Uzun ömürlü malzeme.
 - Her iki sayfanın sekme başlığı ve açıklama meta etiketi kendine özgüdür.
 
+## İletişim ve teklif formu
+
+- **Yerleşim:** başlık ve giriş; geniş ekranda solda form, sağda iletişim bilgileri; mobilde önce form, sonra bilgiler. Harita gömülmez; yerine stilize konum çizimi ve "Konum örnektir." ibaresi.
+- **Adımlar:** (1) Proje: proje türü (kategori verisinden id ile + "Diğer"), hizmetler (hizmet verisinden id ile, en az bir). (2) Ayrıntılar: yaklaşık alan (isteğe bağlı, 5–100.000 m² arası tam sayı), il (`provinces.ts`, 81 il, plaka koduyla), bütçe aralığı (genel aralıklar + "Belirtmek istemiyorum"), zamanlama, açıklama (isteğe bağlı, en fazla 1000 karakter, sayaçlı). (3) İletişim: ad soyad, telefon (Türkiye biçimleri; boşluk, tire, nokta, parantez ve +90/0090/0 önekleri toleranslı), e-posta, tercih edilen iletişim yolu, "örnek metin" olarak işaretli bilgilendirme onayı. (4) Özet: id'ler adlarıyla, her bölümde "Düzenle".
+- **Durum:** `src/quote/quoteForm.ts` içinde saf işlevler. Değiştirme `quoteReducer` (update, next, back, goTo, submit, reset), okuma seçicilerle (`currentStepId`, `canGoToStep`, `firstInvalidField`, `buildSummary`). "İleri" yalnızca adım geçerliyse ilerler; "Geri" doğrulamasız döner; ilerleme göstergesinden yalnızca ulaşılmış adımlara gidilir ve ileri atlarken aradaki adımlar yeniden doğrulanır; gönderim tüm adımları yeniden doğrular ve gönderilmiş forma yapılan her eylem yok sayılır (çift tıklama tek işlenir).
+- **Erişilebilirlik:** seçim grupları `fieldset`/`legend`; her alanın görünür etiketi; hatalar alanın altında ve `aria-describedby` ile bağlı, `aria-invalid`; hatalı denemede odak ilk hatalı alana; adım değişince forma kaydırılır, odak adım başlığına taşınır ve adım duyurulur; başarı ekranı duyurulur ve odak başlığına taşınır. Enter: 1–3. adımlarda "İleri" gibi doğrular, yalnızca özet adımında gönderim yapar; çok satırlı açıklamada yeni satır ekler.
+- **Gizlilik:** form verisi yalnızca bellekte (`useReducer`) tutulur; ağ isteği, tarayıcı depolaması, çerez, adres çubuğu veya log yoktur. Adresten yalnızca `?tur=` kategori slug'ı okunur. Sayfa yenilenince veya terk edilince girilen bilgiler kaybolur (bilinçli tercih).
+
 ## Ana sayfa
 
 - Bölümler: açılış (h1 = marka sloganı, alt metin, iki çağrı, öne çıkan ilk projenin cephe çizimi) → yaklaşım → öne çıkan projeler → hizmetler → kapanış çağrısı.
@@ -325,6 +338,7 @@ Bu çalışmada **fotoğraf kullanılmaz**. Tüm proje görselleri bu repo için
 | `src/assets/projects/prj-001` … `prj-006` / `kapak.svg` (aksonometri), `galeri-1.svg` (cephe), `galeri-2.svg` (kesit), `galeri-3.svg` (plan) | Proje kartları ve proje detayı | `scripts/drawings` betiğiyle kütle modellerinden üretildi | Dörtçatı konsept çalışması (özgün) | Repo ile aynı koşullar; üçüncü taraf hakkı yok |
 | `src/assets/projects/prj-007` … `prj-009` / `kapak.svg` (iç perspektif), `galeri-1.svg` (plan), `galeri-2.svg` (iç cephe / kesit), `galeri-3.svg` (detay aksonometrisi) | Proje kartları ve proje detayı | `scripts/drawings` betiğiyle üretildi | Dörtçatı konsept çalışması (özgün) | Repo ile aynı koşullar; üçüncü taraf hakkı yok |
 | `src/assets/about/atolye.svg` (atölye perspektifi), `dort-cati.svg` (ortak bahçeli dört ev aksonometrisi) | Hakkımızda sayfası | `scripts/drawings/about.ts` ile üretildi | Dörtçatı konsept çalışması (özgün) | Repo ile aynı koşullar; üçüncü taraf hakkı yok |
+| `src/assets/contact/konum.svg` (stilize sokak dokusu ve işaret; gerçek harita değildir) | İletişim sayfası | `scripts/drawings/contact.ts` ile üretildi | Dörtçatı konsept çalışması (özgün) | Repo ile aynı koşullar; üçüncü taraf hakkı yok |
 | `src/assets/fonts/*.woff2` | Tüm site | Google Fonts deposu (Fraunces, Inter) | Fraunces ve Inter proje yazarları | SIL OFL 1.1 |
 
 Çizim kuralları:

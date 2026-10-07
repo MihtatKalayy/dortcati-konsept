@@ -55,7 +55,6 @@ export interface UiCopy {
   menuClose: string
   mobileMenuLabel: string
   pageLoading: string
-  placeholderBody: string
   routeAnnouncement: (pageHeading: string) => string
   backToHome: string
 }
@@ -126,6 +125,8 @@ export interface ProjectsPageCopy {
 
 export interface ProjectDetailCopy {
   backToProjects: string
+  /** Proje kategorisi seçili olarak teklif formunu açan çağrı. */
+  quoteCta: { text: string; button: string }
   breadcrumbLabel: string
   factsHeading: string
   facts: { category: string; year: string; location: string; area: string; scope: string }
@@ -206,6 +207,81 @@ export interface AboutPageCopy {
   closing: { heading: string; projectsLink: string; contactLink: string }
 }
 
+export type QuoteStepId = 'project' | 'details' | 'contact' | 'summary'
+
+export type QuoteErrorCode =
+  | 'required'
+  | 'invalidOption'
+  | 'servicesRequired'
+  | 'areaInvalid'
+  | 'areaRange'
+  | 'descriptionTooLong'
+  | 'nameInvalid'
+  | 'phoneInvalid'
+  | 'emailInvalid'
+  | 'consentRequired'
+
+export interface QuoteOption {
+  /** Sabit kimlik; form durumunda bu değer tutulur. */
+  id: string
+  label: string
+}
+
+export interface ContactPageCopy {
+  heading: string
+  documentTitle: string
+  metaDescription: string
+  intro: string
+  info: {
+    heading: string
+    address: string
+    phone: string
+    email: string
+    hours: string
+    mapCaption: string
+    mapAlt: string
+  }
+  form: {
+    heading: string
+    conceptNote: string
+    progressLabel: string
+    stepPosition: (current: number, total: number) => string
+    stepAnnouncement: (current: number, total: number, title: string) => string
+    steps: Record<QuoteStepId, string>
+    optional: string
+    fields: {
+      projectType: { legend: string; otherOption: QuoteOption }
+      services: { legend: string; hint: string }
+      area: { label: string; hint: string; unit: string }
+      province: { label: string; placeholder: string }
+      budget: { legend: string; hint: string; options: QuoteOption[] }
+      timing: { legend: string; options: QuoteOption[] }
+      description: { label: string; hint: string; counter: (count: number, max: number) => string }
+      fullName: { label: string }
+      phone: { label: string; hint: string }
+      email: { label: string }
+      contactPreference: { legend: string; options: QuoteOption[] }
+      consent: { label: string; text: string; summaryLabel: string; summaryValue: string }
+    }
+    errors: {
+      required: string
+      invalidOption: string
+      servicesRequired: string
+      areaInvalid: string
+      areaRange: (min: number, max: number) => string
+      descriptionTooLong: (max: number) => string
+      nameInvalid: string
+      phoneInvalid: string
+      emailInvalid: string
+      consentRequired: string
+    }
+    errorAnnouncement: (count: number) => string
+    buttons: { next: string; back: string; submit: string; edit: string; editLabel: (step: string) => string }
+    notProvided: string
+    success: { heading: string; body: string; note: string; newRequest: string; projectsLink: string }
+  }
+}
+
 export interface HomeCopy {
   /** Sekme başlığı (ana sayfa marka adını kendisi taşır). */
   documentTitle: string
@@ -231,10 +307,11 @@ export interface SiteContent {
   primaryCta: CallToAction
   contact: ContactInfo
   /** Proje detayının başlığı projenin adından gelir; bu yüzden burada yer almaz. */
-  pages: Record<Exclude<PageId, 'projectDetail' | 'home' | 'about' | 'services'>, PageCopy>
+  pages: Record<'projects' | 'notFound', PageCopy>
   home: HomeCopy
   servicesPage: ServicesPageCopy
   about: AboutPageCopy
+  contactPage: ContactPageCopy
   notFoundBody: string
   footer: FooterCopy
   error: ErrorCopy
