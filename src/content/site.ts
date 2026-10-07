@@ -34,7 +34,11 @@ export const site: SiteContent = {
 
   pages: {
     projects: { heading: 'Projeler' },
-    notFound: { heading: 'Sayfa bulunamadı', documentTitle: 'Sayfa bulunamadı' },
+    notFound: {
+      heading: 'Sayfa bulunamadı',
+      documentTitle: 'Sayfa bulunamadı',
+      metaDescription: 'Aradığınız sayfa bulunamadı. Dörtçatı Mimarlık konsept çalışması.',
+    },
   },
 
   home: {
@@ -250,11 +254,17 @@ export const site: SiteContent = {
       categoryName ? `${categoryName} kategorisinde ${count} proje` : `Tüm kategorilerde ${count} proje`,
     emptyResult: 'Bu kategoride henüz proje yok.',
     documentTitle: (categoryName) => (categoryName ? `${categoryName} projeleri` : 'Projeler'),
+    metaDescription: (categoryName) =>
+      categoryName
+        ? `Dörtçatı Mimarlık’ın ${categoryName.toLocaleLowerCase('tr')} kategorisindeki kurgusal projeleri ve özgün mimari çizimleri. Konsept çalışma.`
+        : 'Dörtçatı Mimarlık’ın konut, ticari ve iç mekân kategorilerindeki dokuz kurgusal projesi ve özgün mimari çizimleri. Konsept çalışma.',
     meta: { category: 'Kategori', year: 'Yıl', location: 'Konum' },
   },
 
   projectDetail: {
     backToProjects: 'Tüm projeler',
+    metaDescription: (projectName, summary) =>
+      `${projectName}: ${summary} Dörtçatı Mimarlık konsept çalışmasındaki kurgusal bir projedir.`,
     quoteCta: {
       text: 'Benzer bir proje mi düşünüyorsunuz?',
       button: 'Teklif alın',

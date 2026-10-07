@@ -8,9 +8,11 @@ import {
   findCategoryBySlug,
   sortProjects,
 } from '../content/projectQueries'
-import { categories, getCategory, projects } from '../content/projects'
+import { categories, getCategory } from '../content/categories'
+import { projects } from '../content/projects'
 import { site } from '../content/site'
 import { useDocumentTitle } from '../hooks/useDocumentTitle'
+import { useMetaDescription } from '../hooks/useMetaDescription'
 import { projectCategoryParam } from '../routes/paths'
 
 const orderedProjects = sortProjects(projects)
@@ -23,6 +25,7 @@ export default function ProjectsPage() {
   const activeCategory = findCategoryBySlug(categories, searchParams.get(projectCategoryParam))
   const visible = filterProjectsByCategory(orderedProjects, activeCategory?.id ?? null)
   useDocumentTitle(copy.documentTitle(activeCategory?.name ?? null))
+  useMetaDescription(copy.metaDescription(activeCategory?.name ?? null))
 
   return (
     <section className="container-page py-section">

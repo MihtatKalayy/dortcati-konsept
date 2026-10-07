@@ -2,9 +2,10 @@ import { Link } from 'react-router'
 import { ProjectCard } from '../components/projects/ProjectCard'
 import { ButtonLink } from '../components/ui/ButtonLink'
 import { PageHeading } from '../components/ui/PageHeading'
-import { eyebrowClass, textLinkClass } from '../components/ui/styles'
+import { eyebrowClass, textLinkClass, touchTargetClass } from '../components/ui/styles'
 import { getFeaturedProjects } from '../content/projectQueries'
-import { getCategory, projects } from '../content/projects'
+import { getCategory } from '../content/categories'
+import { projects } from '../content/projects'
 import { services } from '../content/services'
 import { site } from '../content/site'
 import { useDocumentTitle } from '../hooks/useDocumentTitle'
@@ -52,7 +53,7 @@ export default function HomePage() {
             />
           </div>
           <figcaption className="mt-3 text-sm text-gray-600">
-            <Link to={projectDetailPath(heroProject.slug)} className="underline-offset-4 hover:text-accent hover:underline">
+            <Link to={projectDetailPath(heroProject.slug)} className={`${touchTargetClass} underline-offset-4 hover:text-accent hover:underline`}>
               {copy.hero.imageCaption(heroProject.name, heroImage.caption)}
             </Link>
           </figcaption>
@@ -67,7 +68,7 @@ export default function HomePage() {
           </h2>
           <div>
             <p className="max-w-[30ch] font-display text-h2 text-balance">{copy.intro.body}</p>
-            <Link to={paths.about} className={`mt-10 inline-block ${textLinkClass}`}>
+            <Link to={paths.about} className={`mt-10 ${textLinkClass}`}>
               {copy.intro.link}
             </Link>
           </div>
@@ -91,7 +92,7 @@ export default function HomePage() {
               </li>
             ))}
           </ul>
-          <Link to={paths.projects} className={`mt-14 inline-block ${textLinkClass}`}>
+          <Link to={paths.projects} className={`mt-14 ${textLinkClass}`}>
             {copy.featured.link}
           </Link>
         </div>
@@ -106,7 +107,7 @@ export default function HomePage() {
           <div>
             <ol className="border-t border-gray-200">
               {services.map((service, index) => (
-                <li key={service.id} className="grid grid-cols-[3rem_minmax(0,1fr)] gap-x-4 border-b border-gray-200 py-6 md:grid-cols-[4rem_minmax(0,1fr)]">
+                <li key={service.id} className="relative grid grid-cols-[3rem_minmax(0,1fr)] gap-x-4 border-b border-gray-200 py-6 md:grid-cols-[4rem_minmax(0,1fr)]">
                   <span aria-hidden="true" className="font-display text-h3 text-gray-500 tabular-nums">
                     {String(index + 1).padStart(2, '0')}
                   </span>
@@ -114,7 +115,7 @@ export default function HomePage() {
                     <h3 className="text-h3">
                       <Link
                         to={serviceAnchorPath(service.slug)}
-                        className="decoration-accent decoration-2 underline-offset-[0.2em] hover:underline"
+                        className="decoration-accent decoration-2 underline-offset-[0.2em] after:absolute after:inset-0 hover:underline"
                       >
                         {service.name}
                       </Link>
@@ -124,7 +125,7 @@ export default function HomePage() {
                 </li>
               ))}
             </ol>
-            <Link to={paths.services} className={`mt-10 inline-block ${textLinkClass}`}>
+            <Link to={paths.services} className={`mt-10 ${textLinkClass}`}>
               {copy.services.link}
             </Link>
           </div>

@@ -10,10 +10,12 @@ import { NotFoundView } from '../components/ui/NotFoundView'
 import { ButtonLink } from '../components/ui/ButtonLink'
 import { PageHeading } from '../components/ui/PageHeading'
 import { findProjectBySlug, getAdjacentProjects, sortProjects } from '../content/projectQueries'
-import { getCategory, projects } from '../content/projects'
+import { getCategory } from '../content/categories'
+import { projects } from '../content/projects'
 import { site } from '../content/site'
 import type { Project } from '../content/types'
 import { useDocumentTitle } from '../hooks/useDocumentTitle'
+import { useMetaDescription } from '../hooks/useMetaDescription'
 import { contactPath } from '../routes/paths'
 
 // Önceki/sonraki geçişi Projeler sayfasındaki "Tümü" sırasını izler.
@@ -32,6 +34,7 @@ function ProjectDetail({ project }: { project: Project }) {
   const ids = useId()
   const [viewerIndex, setViewerIndex] = useState<number | null>(null)
   useDocumentTitle(project.name)
+  useMetaDescription(copy.metaDescription(project.name, project.summary))
 
   const category = getCategory(project.categoryId)
   const adjacent = getAdjacentProjects(orderedProjects, project.id)

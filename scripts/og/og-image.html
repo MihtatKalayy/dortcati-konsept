@@ -1,0 +1,37 @@
+<!doctype html>
+<!--
+  Paylaşım görseli (public/og-image.png, 1200×630) için şablon.
+  Yeniden üretmek: bu dosyayı 1200×630 görünümde açıp ekran görüntüsü alın
+  (ör. Playwright: page.setViewportSize({ width: 1200, height: 630 }); page.screenshot()).
+  Fontlar ve çizim repodaki dosyalardır; harici kaynak kullanılmaz.
+-->
+<html lang="tr">
+  <head>
+    <meta charset="utf-8" />
+    <style>
+      @font-face { font-family: 'Fraunces'; src: url('../../public/fonts/fraunces-latin-tr-v1.woff2') format('woff2'); font-weight: 300 700; }
+      @font-face { font-family: 'Inter'; src: url('../../public/fonts/inter-latin-tr-v1.woff2') format('woff2'); font-weight: 400 700; }
+      html, body { margin: 0; width: 1200px; height: 630px; background: #f6f4ef; color: #141414; font-family: 'Inter', sans-serif; }
+      .wrap { display: grid; grid-template-columns: 1fr 1fr; height: 100%; }
+      .text { display: flex; flex-direction: column; justify-content: space-between; padding: 64px 0 64px 72px; }
+      .brand { display: flex; align-items: center; gap: 16px; font-family: 'Fraunces', serif; font-size: 34px; }
+      h1 { margin: 0; font-family: 'Fraunces', serif; font-weight: 400; font-size: 76px; line-height: 1; letter-spacing: -0.02em; }
+      .note { border-left: 6px solid #b23a1d; padding-left: 16px; font-size: 22px; font-weight: 600; }
+      .art { display: flex; align-items: center; justify-content: center; padding: 48px 56px 48px 24px; }
+      .art img { width: 100%; border: 1px solid #d4d3cf; background: #fff; }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <div class="text">
+        <div class="brand">
+          <svg viewBox="0 0 32 32" width="44" height="44" aria-hidden="true"><path d="M2 14 9 6l7 8M16 14l7-8 7 8M2 30l7-8 7 8M16 30l7-8 7 8" fill="none" stroke="currentColor" stroke-width="2.5" /></svg>
+          Dörtçatı Mimarlık
+        </div>
+        <h1>Yaşanacak mekânlar, sade çizgiler.</h1>
+        <p class="note">Konsept çalışma · gerçek bir firmayı temsil etmez</p>
+      </div>
+      <div class="art"><img src="../../src/assets/projects/prj-001/kapak.svg" alt="" /></div>
+    </div>
+  </body>
+</html>

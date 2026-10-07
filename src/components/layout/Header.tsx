@@ -12,7 +12,7 @@ export function Header() {
         <Link
           to={paths.home}
           aria-label={site.ui.homeLinkLabel}
-          className="flex items-center gap-2.5 font-display text-xl whitespace-nowrap md:text-2xl"
+          className="flex min-h-11 items-center gap-2.5 font-display text-xl whitespace-nowrap md:text-2xl"
         >
           <LogoMark className="size-7 shrink-0" />
           {site.brand.name}

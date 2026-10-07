@@ -1,25 +1,9 @@
 @import 'tailwindcss';
 
 /*
- * Fontlar kendi sunucumuzdan yüklenir. Dosyalar Latin + Türkçe karakterlere
- * daraltılmış değişken (variable) woff2 alt kümeleridir; lisanslar aynı
- * klasördeki OFL dosyalarındadır.
+ * Fontlar (Fraunces, Inter) index.html'deki satır içi FontFace betiğiyle
+ * public/fonts/ klasöründen yüklenir; burada yalnızca aile adlarıyla kullanılır.
  */
-@font-face {
-  font-family: 'Fraunces';
-  src: url('../assets/fonts/fraunces-latin-tr.woff2') format('woff2');
-  font-weight: 300 700;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Inter';
-  src: url('../assets/fonts/inter-latin-tr.woff2') format('woff2');
-  font-weight: 400 700;
-  font-style: normal;
-  font-display: swap;
-}
 
 /*
  * Tasarım belirteçleri — tek kaynak.
@@ -91,6 +75,8 @@
     font-family: var(--font-sans);
     font-size: 1.0625rem;
     line-height: 1.6;
+    /* Uzun kelimeler (ör. uzun proje adları, e-posta) dar ekranda taşmasın; yalnızca sığmadığında bölünür. */
+    overflow-wrap: anywhere;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
@@ -101,6 +87,7 @@
     font-family: var(--font-display);
     font-weight: 400;
     text-wrap: balance;
+    hyphens: auto;
   }
 
   :focus-visible {

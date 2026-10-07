@@ -1,14 +1,15 @@
 import { useEffect } from 'react'
+import { DESCRIPTION_META, setMetaContent } from './meta'
 
-/** Sayfa açıkken açıklama meta etiketini değiştirir, ayrılınca önceki değeri geri yükler. */
+/**
+ * Sayfa açıkken açıklama etiketlerini (description, og:description, twitter:description)
+ * değiştirir, ayrılınca önceki değerleri geri yükler.
+ */
 export function useMetaDescription(description: string) {
   useEffect(() => {
-    const meta = document.querySelector<HTMLMetaElement>('meta[name="description"]')
-    if (!meta) throw new Error('index.html açıklama meta etiketi bulunamadı')
-    const previous = meta.content
-    meta.content = description
+    const previous = DESCRIPTION_META.map((selector) => setMetaContent(selector, description))
     return () => {
-      meta.content = previous
+      DESCRIPTION_META.forEach((selector, i) => setMetaContent(selector, previous[i]))
     }
   }, [description])
 }

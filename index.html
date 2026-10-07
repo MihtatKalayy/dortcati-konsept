@@ -8,10 +8,44 @@
       name="description"
       content="Dörtçatı Mimarlık; konut, ticari ve iç mekân projeleri üreten kurgusal bir mimarlık ofisinin kurumsal sitesi. Bu site bir konsept çalışmadır, gerçek bir firmayı temsil etmez."
     />
+    <!--
+      Fontlar kendi sunucumuzdan, ilk çizimden önce yüklenmeye başlar (düzen kaymasını önler).
+      <link rel="preload"> yerine FontFace kullanılır: aynı sekmede başka bir sayfa tam
+      yüklendiğinde yazı tipi bellekten geldiği için Chrome "kullanılmayan preload" uyarısı veriyordu.
+      Dosya adları sürümlüdür (-v1); yazı tipi değişirse ad da değişmelidir (uzun süreli önbellek).
+    -->
+    <script>
+      for (const [family, url, weight] of [
+        ['Fraunces', '/fonts/fraunces-latin-tr-v1.woff2', '300 700'],
+        ['Inter', '/fonts/inter-latin-tr-v1.woff2', '400 700'],
+      ]) {
+        const face = new FontFace(family, `url(${url}) format('woff2')`, { weight, display: 'swap' })
+        document.fonts.add(face)
+        face.load()
+      }
+    </script>
     <meta name="theme-color" content="#f6f4ef" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <link rel="preload" href="/src/assets/fonts/inter-latin-tr.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="/src/assets/fonts/fraunces-latin-tr.woff2" as="font" type="font/woff2" crossorigin />
+    <!-- Paylaşım etiketleri. og:url ve canonical, yayın adresi belli olunca eklenecek. -->
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="tr_TR" />
+    <meta property="og:site_name" content="Dörtçatı Mimarlık" />
+    <meta property="og:title" content="Dörtçatı Mimarlık — Mimarlık ve iç mimarlık | Konsept çalışma" />
+    <meta
+      property="og:description"
+      content="Dörtçatı Mimarlık; konut, ticari ve iç mekân projeleri üreten kurgusal bir mimarlık ofisinin kurumsal sitesi. Bu site bir konsept çalışmadır, gerçek bir firmayı temsil etmez."
+    />
+    <meta property="og:image" content="/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Dörtçatı Mimarlık — Yaşanacak mekânlar, sade çizgiler. Konsept çalışma." />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Dörtçatı Mimarlık — Mimarlık ve iç mimarlık | Konsept çalışma" />
+    <meta
+      name="twitter:description"
+      content="Dörtçatı Mimarlık; konut, ticari ve iç mekân projeleri üreten kurgusal bir mimarlık ofisinin kurumsal sitesi. Bu site bir konsept çalışmadır, gerçek bir firmayı temsil etmez."
+    />
+    <meta name="twitter:image" content="/og-image.png" />
   </head>
   <body>
     <div id="root"></div>

@@ -131,8 +131,8 @@ Yayın ayarları `netlify.toml` ile repoda tutulur:
 
 - Tek sayfa uygulaması (SPA) yönlendirmesi: bilinmeyen sayfa adresleri `index.html`'e yönlendirilir.
 - Var olmayan statik dosya adresleri (ör. `/.well-known/` altı) HTML yerine **gerçek 404** döner.
-  Bu kurallar SPA yönlendirmesinden önce gelir ve şu adresleri kapsar: `/.well-known/*`, `/ai-catalog.json`, `/assets/*` (eski yayından kalmış derleme dosyaları) ve `/favicon.ico`. Adreste gerçekten bir dosya varsa o dosya sunulur.
-- Önbellek: `/assets/*` (içerik özetli adlar) bir yıl ve `immutable`; `/` ve `/index.html` için `no-cache`.
+  Bu kurallar SPA yönlendirmesinden önce gelir ve şu adresleri kapsar: `/.well-known/*`, `/ai-catalog.json`, `/assets/*` (eski yayından kalmış derleme dosyaları), `/fonts/*` ve `/favicon.ico`. Adreste gerçekten bir dosya varsa o dosya sunulur.
+- Önbellek: `/assets/*` (içerik özetli adlar) ve `/fonts/*.woff2` (sürümlü adlar) bir yıl ve `immutable`; `/` ve `/index.html` için `no-cache`.
 - Güvenlik başlıkları: `X-Content-Type-Options`, `Referrer-Policy`, `X-Frame-Options`, `Permissions-Policy`.
 - Node sürümü: `22` (Vite 8 en az 22.12, React Router 8 en az 22.22 ister).
 - Geçerli bir `llms.txt` dosyası yayınlanır.
@@ -153,10 +153,11 @@ Tüm belirteçler tek yerde, `src/styles/index.css` içindeki Tailwind `@theme` 
 | Başlıklar (`font-display`) | Fraunces (değişken, ağırlık 300–700) | SIL Open Font License 1.1 | [google/fonts](https://github.com/google/fonts/tree/main/ofl/fraunces) |
 | Gövde metni (`font-sans`) | Inter (değişken, ağırlık 400–700) | SIL Open Font License 1.1 | [google/fonts](https://github.com/google/fonts/tree/main/ofl/inter) |
 
-- Fontlar kendi sunucumuzdan yüklenir (`src/assets/fonts/`); harici font servisi kullanılmaz.
+- Fontlar kendi sunucumuzdan yüklenir (`public/fonts/`); harici font servisi kullanılmaz.
 - Dosyalar fontTools ile Latin + Türkçe karakterlere (ç, ğ, ı, İ, ö, ş, ü, â, î, û, ₺ ve tipografik işaretler) daraltılmış tek birer woff2 alt kümesidir: Inter ≈ 27 KB, Fraunces ≈ 34 KB. Fraunces'in `opsz` ekseni 72'ye, `SOFT` ve `WONK` eksenleri 0'a sabitlenmiştir.
-- `font-display: swap` kullanılır; iki dosya `index.html`'de önceden yüklenir (preload). Derlemede dosya adları içerik özetli (hash) olur.
-- Lisans metinleri: `src/assets/fonts/Fraunces-OFL.txt`, `src/assets/fonts/Inter-OFL.txt`. Lisanslarda ayrılmış font adı (Reserved Font Name) tanımlı değildir.
+- Yükleme `index.html`'deki küçük bir satır içi `FontFace` betiğiyle, ilk çizimden önce başlar (`display: swap`). `<link rel="preload">` kullanılmaz: aynı sekmede başka bir sayfa tam yüklendiğinde Chrome "kullanılmayan preload" uyarısı veriyordu; preload'suz CSS keşfi ise 768 px'te düzen kaymasına (CLS ≈ 0,06) yol açıyordu. Bu yöntemle CLS 0 ve konsol temizdir.
+- Dosya adları sürümlüdür (`-v1`) ve bir yıl `immutable` önbelleklenir; font değişirse ad da değişmelidir.
+- Lisans metinleri: `public/fonts/Fraunces-OFL.txt`, `public/fonts/Inter-OFL.txt` (yayında da erişilebilir). Lisanslarda ayrılmış font adı (Reserved Font Name) tanımlı değildir.
 
 ### Renkler
 
@@ -236,17 +237,19 @@ Adresler `src/routes/paths.ts` içinde tek yerde tanımlıdır. Sabit dosyalar: 
 
 ```
 .
-├── index.html               # Dil, başlık, açıklama, tema rengi, favicon, font preload
+├── index.html               # Dil, başlık, açıklama, Open Graph/Twitter, tema rengi, favicon, font yükleme betiği
 ├── netlify.toml             # Build, yönlendirme, 404 kuralları, başlıklar
 ├── scripts/drawings/        # Proje, Hakkımızda ve konum çizimlerini üreten betik (npm run cizimler)
+├── scripts/og/              # Paylaşım görseli şablonu (og-image.html)
 ├── public/                  # Olduğu gibi kopyalanan dosyalar
+│   ├── fonts/               # Alt kümelenmiş, sürümlü woff2 fontlar ve OFL lisansları
+│   ├── og-image.png         # 1200×630 paylaşım görseli
 │   ├── 404.html
 │   ├── favicon.svg
 │   ├── llms.txt
 │   └── robots.txt
 └── src/
     ├── main.tsx             # Giriş noktası
-    ├── assets/fonts/        # Alt kümelenmiş woff2 fontlar ve OFL lisansları
     ├── assets/projects/     # Üretilmiş SVG çizimler: <proje-id>/{kapak,galeri-1,galeri-2,galeri-3}.svg
     ├── assets/about/        # Hakkımızda çizimleri: atolye.svg, dort-cati.svg
     ├── assets/contact/      # Stilize konum çizimi: konum.svg
@@ -329,6 +332,49 @@ Adresler `src/routes/paths.ts` içinde tek yerde tanımlıdır. Sabit dosyalar: 
 - Görüntüleyici yerel modal `<dialog>` kullanır; harici galeri kütüphanesi yoktur. Görsel sırası: kapak, ardından galeri. Ok tuşları ve dokunmatik kaydırma döngüseldir.
 - Önceki/sonraki proje, Projeler sayfasındaki "Tümü" sırasına göre ve döngüsel olarak belirlenir; eşleştirme id ile yapılır.
 
+## Denetim ve ölçüm (yol haritası adım 8)
+
+### Lighthouse sonuçları (mobil profil)
+
+Ölçüm koşulları: Lighthouse 13.5.0, Node API, varsayılan mobil profil (Moto G Power öykünmesi, simüle yavaş 4G, 4× CPU yavaşlatma), başsız Chromium 141, `agentic-browsing` yapılandırması (varsayılan kategoriler + Agentic Browsing). Üretim derlemesi iki yerel sunucuda ölçüldü:
+
+- **A — `vite preview`** (gzip sıkıştırmalı): performans için gerçek yayına en yakın ölçüm. Ancak bilinmeyen her adrese `index.html` ile 200 döndüğü için `/.well-known/ai-catalog.json` "geçersiz katalog" sayılır ve Agentic Browsing 75 görünür.
+- **B — `netlify dev`** (`netlify.toml` kuralları uygulanır, ancak sıkıştırma yok): Agentic Browsing ve 404 kuralları için doğru ölçüm; sıkıştırmasız 337 KB ana JS yüzünden performans düşük görünür.
+
+| Sayfa | Önce (A) P / E / İU / SEO | Sonra (A) P / E / İU / SEO | Agentic (B) önce → sonra | CLS (A) önce → sonra |
+| --- | --- | --- | --- | --- |
+| Ana sayfa | 95 / 100 / 100 / 100 | 96 / 100 / 100 / 100 | 100 → 100 | 0 → 0 |
+| Projeler | 97 / 100 / 100 / 100 | 96 / 100 / 100 / 100 | 100 → 100 | 0 → 0 |
+| Proje detayı (Zeytinlik Evi) | 97 / 100 / 100 / 100 | 96 / 100 / 100 / 100 | 100 → 100 | 0 → 0 |
+| Hizmetler | 98 / 100 / 100 / 100 | 96 / 100 / 100 / 100 | 100 → 100 | 0 → 0 |
+| Hakkımızda | 98 / 100 / 100 / 100 | 97 / 100 / 100 / 100 | 100 → 100 | 0 → 0 |
+| İletişim | 97 / 100 / 100 / 100 | 96 / 100 / 100 / 100 | 100 → 100 | 0 → 0 |
+
+P: Performance, E: Accessibility, İU: Best Practices. B ortamında performans 79–86 arasıdır (sıkıştırma yok). Performans puanındaki ±2'lik fark ölçüm gürültüsü ve font yükleme yöntemi değişikliğidir (önceki preload, aynı sekmede sayfa değiştirirken konsol uyarısı veriyordu). Lighthouse'un kalan uyarıları: kullanılmayan JavaScript (React DOM ve React Router çekirdeği), tek CSS dosyasının render'ı engellemesi ve sayfa parçasının ana betikten sonra keşfedilmesi; bunlar tek sayfa uygulaması mimarisinin doğal sonucudur. Yayından sonra gerçek adreste PageSpeed Insights ile yeniden ölçülmelidir.
+
+### Paket boyutları (sıkıştırmasız / gzip)
+
+| Parça | JS | Not |
+| --- | --- | --- |
+| Ortak (React, React Router, yerleşim) | 329,5 KB / 103,7 KB | Tüm sayfalarda |
+| Ortak CSS | 22,7 KB / 5,5 KB | Tüm sayfalarda |
+| Ana sayfa | +27,9 KB / +10,4 KB | proje verisi ve hizmetler dahil |
+| Projeler | +21,4 KB / +8,0 KB | |
+| Proje detayı | +27,9 KB / +10,1 KB | galeri ve görüntüleyici dahil |
+| Hizmetler | +11,1 KB / +4,7 KB | |
+| Hakkımızda | +5,8 KB / +2,5 KB | |
+| İletişim | +26,1 KB / +9,0 KB | teklif formu ve 81 il dahil |
+| 404 | +1,4 KB / +1,0 KB | |
+
+Çizimler (39 SVG): 508 KB → 351 KB (aynı stildeki ardışık çizgiler tek `<path>` altında birleştirildi; piksel farkı %0,002).
+
+### Açık kalan bulgular ve kararlar
+
+- **Yayın adresi gerekli:** canonical etiketleri, `og:url`, mutlak `og:image`, `sitemap.xml`, robots.txt'deki sitemap satırı ve llms.txt'deki mutlak bağlantılar adres belli olunca eklenecek. `og:image` şimdilik göreli (`/og-image.png`); bazı paylaşım servisleri mutlak adres ister.
+- **Content-Security-Policy:** eklenmedi; karar bekliyor. Not: `index.html`'deki satır içi font betiği nedeniyle CSP'de bu betiğin özeti (`sha256-…`) veya ayrı bir dosya gerekecek.
+- **Tek sayfa uygulamasında 404:** bilinmeyen sayfa adresleri HTTP 200 döner (yumuşak 404); 404 görünümü `noindex` ekler.
+- **Performans:** ana JS'nin büyük kısmı React DOM'dur; daha fazla küçültme çatı değişikliği (ör. önceden işlenmiş HTML) gerektirir.
+
 ## Görsel kaynakları ve lisanslar
 
 Bu çalışmada **fotoğraf kullanılmaz**. Tüm proje görselleri bu repo için özgün olarak üretilmiş çizimlerdir; gerçek bir yapıyı tasvir etmez ve üçüncü taraf kaynak içermez.
@@ -339,7 +385,8 @@ Bu çalışmada **fotoğraf kullanılmaz**. Tüm proje görselleri bu repo için
 | `src/assets/projects/prj-007` … `prj-009` / `kapak.svg` (iç perspektif), `galeri-1.svg` (plan), `galeri-2.svg` (iç cephe / kesit), `galeri-3.svg` (detay aksonometrisi) | Proje kartları ve proje detayı | `scripts/drawings` betiğiyle üretildi | Dörtçatı konsept çalışması (özgün) | Repo ile aynı koşullar; üçüncü taraf hakkı yok |
 | `src/assets/about/atolye.svg` (atölye perspektifi), `dort-cati.svg` (ortak bahçeli dört ev aksonometrisi) | Hakkımızda sayfası | `scripts/drawings/about.ts` ile üretildi | Dörtçatı konsept çalışması (özgün) | Repo ile aynı koşullar; üçüncü taraf hakkı yok |
 | `src/assets/contact/konum.svg` (stilize sokak dokusu ve işaret; gerçek harita değildir) | İletişim sayfası | `scripts/drawings/contact.ts` ile üretildi | Dörtçatı konsept çalışması (özgün) | Repo ile aynı koşullar; üçüncü taraf hakkı yok |
-| `src/assets/fonts/*.woff2` | Tüm site | Google Fonts deposu (Fraunces, Inter) | Fraunces ve Inter proje yazarları | SIL OFL 1.1 |
+| `public/og-image.png` (1200×630 paylaşım görseli) | Open Graph / Twitter kartı | `scripts/og/og-image.html` şablonundan bir kez ekran görüntüsüyle üretildi; Zeytinlik Evi aksonometrisi ve site fontları | Dörtçatı konsept çalışması (özgün) | Repo ile aynı koşullar; üçüncü taraf hakkı yok |
+| `public/fonts/*.woff2` | Tüm site | Google Fonts deposu (Fraunces, Inter) | Fraunces ve Inter proje yazarları | SIL OFL 1.1 |
 
 Çizim kuralları:
 

@@ -29,6 +29,11 @@
   status = 404
 
 [[redirects]]
+  from = "/fonts/*"
+  to = "/404.html"
+  status = 404
+
+[[redirects]]
   from = "/favicon.ico"
   to = "/404.html"
   status = 404
@@ -52,6 +57,12 @@
 # Vite'ın içerik özetli (hash) adlı dosyaları kalıcıdır; uzun süre önbelleklenir.
 [[headers]]
   for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Fontların adları sürümlüdür (-v1); içerik değişirse ad da değişir.
+[[headers]]
+  for = "/fonts/*.woff2"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
 

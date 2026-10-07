@@ -1,5 +1,7 @@
 import { site } from '../../content/site'
 import { useDocumentTitle } from '../../hooks/useDocumentTitle'
+import { useMetaDescription } from '../../hooks/useMetaDescription'
+import { useNoIndex } from '../../hooks/useNoIndex'
 import { paths } from '../../routes/paths'
 import { PageHeading } from './PageHeading'
 import { TextLink } from './TextLink'
@@ -8,6 +10,8 @@ import { TextLink } from './TextLink'
 export function NotFoundView() {
   const copy = site.pages.notFound
   useDocumentTitle(copy.documentTitle)
+  useMetaDescription(copy.metaDescription ?? site.home.metaDescription)
+  useNoIndex()
 
   return (
     <section className="container-page py-section">

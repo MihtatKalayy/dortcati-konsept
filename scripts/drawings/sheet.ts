@@ -95,8 +95,25 @@ export class Sheet {
       pts.map((p, i) => `${i ? 'L' : 'M'}${tx(p).map(num).join(' ')}`).join('') + (closed ? 'Z' : '')
 
     const out: string[] = []
+    // Ardışık, aynı stildeki açık çizgiler tek bir <path> altında birleştirilir; dolgusuz
+    // oldukları için çizim sırası ve görünüm değişmez, dosya boyutu küçülür.
+    let pending: { attrs: string; d: string } | null = null
+    const flush = () => {
+      if (pending) out.push(`<path d="${pending.d}" ${pending.attrs}/>`)
+      pending = null
+    }
     let clipId = 0
     for (const item of this.items) {
+      if (item.type === 'path' && !item.closed) {
+        const attrs = styleAttrs(item.style, false)
+        if (pending && pending.attrs === attrs) pending.d += d(item.pts, false)
+        else {
+          flush()
+          pending = { attrs, d: d(item.pts, false) }
+        }
+        continue
+      }
+      flush()
       if (item.type === 'path') {
         out.push(`<path d="${d(item.pts, item.closed)}" ${styleAttrs(item.style, item.closed)}/>`)
       } else if (item.type === 'circle') {
@@ -130,6 +147,8 @@ export class Sheet {
         )
       }
     }
+
+    flush()
 
     return (
       `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${SHEET_WIDTH} ${SHEET_HEIGHT}" width="${SHEET_WIDTH}" height="${SHEET_HEIGHT}">` +
