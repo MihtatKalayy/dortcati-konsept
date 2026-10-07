@@ -1,4 +1,7 @@
+import { DRAWING_HEIGHT, DRAWING_WIDTH } from './drawingSize'
 import type { Project, ProjectCategory, ProjectImage } from './types'
+
+export { DRAWING_HEIGHT, DRAWING_WIDTH }
 
 /**
  * Proje ve kategori verisinin tek kaynağı. Tüm projeler kurgusaldır.
@@ -18,8 +21,6 @@ export function getCategory(id: string): ProjectCategory {
   return category
 }
 
-export const DRAWING_WIDTH = 1200
-export const DRAWING_HEIGHT = 800
 
 type DrawingFile = 'kapak' | 'galeri-1' | 'galeri-2' | 'galeri-3'
 

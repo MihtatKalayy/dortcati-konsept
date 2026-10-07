@@ -21,4 +21,12 @@ describe('hizmet verisi', () => {
       for (const paragraph of service.description) expect(paragraph.length).toBeGreaterThan(40)
     }
   })
+
+  it('her hizmette 3–5 kapsam maddesi var', () => {
+    for (const service of services) {
+      expect(service.includes.length).toBeGreaterThanOrEqual(3)
+      expect(service.includes.length).toBeLessThanOrEqual(5)
+      expect(new Set(service.includes).size).toBe(service.includes.length)
+    }
+  })
 })

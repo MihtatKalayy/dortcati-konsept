@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { formatDocumentTitle } from './documentTitle'
 import { site } from './site'
-import { paths, projectDetailPath, projectsPath } from '../routes/paths'
+import { paths, projectDetailPath, projectsPath, serviceAnchorPath } from '../routes/paths'
 
 describe('içerik kaynağı', () => {
   it('menü öğelerinin kimlikleri benzersiz', () => {
@@ -51,5 +51,11 @@ describe('projectsPath', () => {
 
   it('kategori ile sorgu parametreli adres', () => {
     expect(projectsPath('ic-mekan')).toBe('/projeler?kategori=ic-mekan')
+  })
+})
+
+describe('serviceAnchorPath', () => {
+  it('Hizmetler sayfasında slug çapası üretir', () => {
+    expect(serviceAnchorPath('ic-mimarlik')).toBe('/hizmetler#ic-mimarlik')
   })
 })

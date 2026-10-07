@@ -33,8 +33,6 @@ export const site: SiteContent = {
   },
 
   pages: {
-    about: { heading: 'Hakkımızda', documentTitle: 'Hakkımızda' },
-    services: { heading: 'Hizmetler', documentTitle: 'Hizmetler' },
     projects: { heading: 'Projeler' },
     contact: { heading: 'İletişim', documentTitle: 'İletişim' },
     notFound: { heading: 'Sayfa bulunamadı', documentTitle: 'Sayfa bulunamadı' },
@@ -58,6 +56,72 @@ export const site: SiteContent = {
     featured: { heading: 'Öne çıkan projeler', link: 'Tüm projeler' },
     services: { heading: 'Hizmetler', link: 'Hizmetleri gör' },
     closing: { heading: 'Aklınızdaki mekânı birlikte konuşalım.', cta: 'İletişime geçin' },
+  },
+
+  servicesPage: {
+    heading: 'Hizmetler',
+    documentTitle: 'Hizmetler',
+    metaDescription:
+      'Dörtçatı Mimarlık hizmetleri: mimari tasarım, iç mimarlık, uygulama ve şantiye yönetimi, renovasyon ve danışmanlık; çalışma süreci ve sık sorulan sorular. Konsept çalışma.',
+    intro:
+      'Bir projeye arsa seçiminden anahtar teslimine kadar her aşamada dahil olabiliyoruz. Aşağıda her hizmetin neleri kapsadığını ve birlikte nasıl çalıştığımızı bulabilirsiniz.',
+    includesHeading: 'Kapsadığı işler',
+    process: {
+      heading: 'Çalışma süreci',
+      intro: 'Her projenin temposu farklıdır; yine de çoğu iş aşağıdaki beş adımı izler.',
+    },
+    faq: { heading: 'Sık sorulan sorular' },
+    closing: { heading: 'Projenizi dinlemek isteriz.', cta: 'İletişime geçin' },
+  },
+
+  about: {
+    heading: 'Hakkımızda',
+    documentTitle: 'Hakkımızda',
+    metaDescription:
+      'Dörtçatı Mimarlık’ın hikâyesi, tasarım ilkeleri ve kurgusal ekibi. Bu site bir konsept çalışmadır, gerçek bir firmayı temsil etmez.',
+    lead: 'Dörtçatı, mimarlık ve iç mimarlığı tek masada buluşturan küçük bir ofis. Her ölçekte aynı soruyu soruyoruz: bu mekânda yaşamak nasıl hissettirecek?',
+    story: {
+      heading: 'Hikâyemiz',
+      paragraphs: [
+        'Ofisin adı, ilk ortak çalışmamızdan geliyor: aynı bahçeyi paylaşan dört küçük evin yenilenmesi. O işte her evin kendi çatısı altında farklı bir hayat sürdüğünü, ama bahçenin hepsini bir arada tuttuğunu gördük. O günden beri tasarıma tek tek yapılardan değil, aralarındaki ilişkilerden başlıyoruz.',
+        'Bugün konut, ticari ve iç mekân projelerini aynı ekiple yürütüyoruz. Mimari tasarımı yapan kişi iç mekânın ayrıntısını da, şantiyedeki uygulamayı da takip ediyor. Bu sayede ilk eskizde verilen kararlar teslim gününe kadar kaybolmuyor.',
+        'Küçük kalmayı bilerek seçtik. Aynı anda sınırlı sayıda projeye odaklanıyor, her işverenle doğrudan ve düzenli konuşuyoruz.',
+      ],
+    },
+    principles: {
+      heading: 'Tasarım ilkeleri',
+      items: [
+        {
+          id: 'ilk-baglam',
+          title: 'Bağlama saygı',
+          body: 'Arsanın eğimi, mevcut ağaçlar, komşu yapılar ve iklim tasarımın başlangıç noktasıdır; onları değiştirmek yerine onlarla çalışırız.',
+        },
+        {
+          id: 'ilk-yalinlik',
+          title: 'Yalınlık',
+          body: 'Az sayıda malzeme ve açık bir plan kurgusu, mekânı hem okunur hem de uzun yıllar kullanışlı kılar.',
+        },
+        {
+          id: 'ilk-isik',
+          title: 'Doğal ışık',
+          body: 'Pencerelerin yerini ve boyutunu güneşin gün içindeki yoluna göre belirler, yapay ışığı bunu tamamlayacak şekilde tasarlarız.',
+        },
+        {
+          id: 'ilk-malzeme',
+          title: 'Uzun ömürlü malzeme',
+          body: 'Zamanla güzelleşen, onarılabilen ve bölgede kolay bulunan malzemeleri tercih ederiz.',
+        },
+      ],
+    },
+    team: {
+      heading: 'Ekip',
+      note: 'Kurgusal ekip: kişiler, adlar ve unvanlar bu konsept çalışma için oluşturulmuştur.',
+    },
+    closing: {
+      heading: 'İşlerimize göz atın ya da bize projenizden bahsedin.',
+      projectsLink: 'Projeleri incele',
+      contactLink: 'İletişime geçin',
+    },
   },
 
   notFoundBody: 'Aradığınız sayfa taşınmış ya da hiç var olmamış olabilir.',

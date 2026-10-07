@@ -224,7 +224,7 @@ Başlıklar ekran genişliğine göre `clamp()` ile akıcı ölçeklenir:
 | --- | --- |
 | Ana sayfa | `/` |
 | Hakkımızda | `/hakkimizda` |
-| Hizmetler | `/hizmetler` |
+| Hizmetler | `/hizmetler`; her hizmetin çapası `#<hizmet-slug>` (ör. `/hizmetler#renovasyon`) |
 | Projeler | `/projeler`; kategori filtresi `?kategori=<kategori-slug>` (ör. `/projeler?kategori=ic-mekan`). Geçersiz veya eksik değer "Tümü" gösterir. |
 | Proje detayı | `/projeler/<proje-slug>` (ör. `/projeler/zeytinlik-evi`); olmayan slug 404 görünümü gösterir. |
 | İletişim (teklif formu) | `/iletisim` |
@@ -238,7 +238,7 @@ Adresler `src/routes/paths.ts` içinde tek yerde tanımlıdır. Sabit dosyalar: 
 .
 ├── index.html               # Dil, başlık, açıklama, tema rengi, favicon, font preload
 ├── netlify.toml             # Build, yönlendirme, 404 kuralları, başlıklar
-├── scripts/drawings/        # Proje çizimlerini üreten betik (npm run cizimler)
+├── scripts/drawings/        # Proje ve Hakkımızda çizimlerini üreten betik (npm run cizimler)
 ├── public/                  # Olduğu gibi kopyalanan dosyalar
 │   ├── 404.html
 │   ├── favicon.svg
@@ -248,14 +248,17 @@ Adresler `src/routes/paths.ts` içinde tek yerde tanımlıdır. Sabit dosyalar: 
     ├── main.tsx             # Giriş noktası
     ├── assets/fonts/        # Alt kümelenmiş woff2 fontlar ve OFL lisansları
     ├── assets/projects/     # Üretilmiş SVG çizimler: <proje-id>/{kapak,galeri-1,galeri-2,galeri-3}.svg
+    ├── assets/about/        # Hakkımızda çizimleri: atolye.svg, dort-cati.svg
     ├── components/
     │   ├── layout/          # Layout, Header, MobileMenu, Footer, SkipLink, RouteChangeAnnouncer
+    │   ├── about/           # TeamMemberCard
+    │   ├── services/        # FaqList
     │   ├── projects/        # ProjectFilter, ProjectCard, Breadcrumb, ProjectFacts, ProjectGallery,
     │                        # ImageButton, ImageViewer (tam ekran), AdjacentProjects
-    │   └── ui/              # PageHeading, ButtonLink, PlaceholderPage, NotFoundView, TextLink, PageLoading, LogoMark
+    │   └── ui/              # styles.ts, PageHeading, ButtonLink, PlaceholderPage, NotFoundView, TextLink, PageLoading, LogoMark
     ├── content/             # Tek içerik kaynağı: site.ts (metinler), projects.ts (proje ve kategori verisi),
-    │                        # services.ts (hizmet verisi), projectQueries.ts (saf sorgu işlevleri),
-    │                        # format.ts, types.ts ve testler
+    │                        # services.ts, process.ts, faq.ts, team.ts, aboutImages.ts, drawingSize.ts,
+    │                        # projectQueries.ts (saf sorgu işlevleri), format.ts, types.ts ve testler
     ├── hooks/               # useDocumentTitle, useMetaDescription, useModalDialog
     ├── pages/               # Her sayfa ayrı parça olarak yüklenir
     ├── routes/              # Adresler (paths.ts) ve yönlendirici (router.tsx)
@@ -280,7 +283,7 @@ Adresler `src/routes/paths.ts` içinde tek yerde tanımlıdır. Sabit dosyalar: 
 
 ## Hizmet verisi
 
-`src/content/services.ts` 5 hizmet içerir; her birinin sabit `id`'si (`svc-001` …), `slug`'ı, adı, tek cümlelik özeti ve ayrıntılı açıklaması vardır. Ana sayfa yalnızca ad ve özeti, Hizmetler sayfası tamamını kullanır.
+`src/content/services.ts` 5 hizmet içerir; her birinin sabit `id`'si (`svc-001` …), `slug`'ı, adı, tek cümlelik özeti ve ayrıntılı açıklaması vardır. Her hizmette 3–5 maddelik kapsam listesi (`includes`) de vardır. Ana sayfa yalnızca ad ve özeti kullanır ve her adı `/hizmetler#<slug>` çapasına bağlar; Hizmetler sayfası tamamını kullanır.
 
 | id | Hizmet |
 | --- | --- |
@@ -289,6 +292,15 @@ Adresler `src/routes/paths.ts` içinde tek yerde tanımlıdır. Sabit dosyalar: 
 | `svc-003` | Uygulama ve şantiye yönetimi |
 | `svc-004` | Renovasyon ve yeniden kullanım |
 | `svc-005` | Danışmanlık |
+
+## Hizmetler ve Hakkımızda sayfaları
+
+- **Çalışma süreci** (`process.ts`, sıralı liste): `prc-001` Tanışma ve ihtiyaç analizi, `prc-002` Konsept tasarım, `prc-003` Projelendirme, `prc-004` Uygulama, `prc-005` Teslim.
+- **Sık sorulan sorular** (`faq.ts`): 5 soru; yerel `<details>`/`<summary>` ile açılır-kapanır (fare, dokunma, Enter/Boşluk; durum tarayıcı tarafından bildirilir). Cevaplar geneldir; kesin süre, fiyat veya garanti içermez (testle denetlenir).
+- **Çapalar:** Hizmetler `/hizmetler#<slug>` ile açılır; sayfa geçişinde odak çapalanan hizmete taşınır. Header sabit (sticky) olmadığından başlık header'ın altında kalmaz; ek olarak `scroll-margin-top` verilmiştir.
+- **Ekip** (`team.ts`, kurgusaldır): `ekp-001` Deniz Aksoy — Kurucu mimar; `ekp-002` Selin Karaca — İç mimar; `ekp-003` Kerem Ilgaz — Proje ve şantiye sorumlusu; `ekp-004` Ece Tunalı — Mimar. Fotoğraf yerine baş harfli soyut avatar; bölümde görünür "Kurgusal ekip" notu.
+- **Tasarım ilkeleri:** Bağlama saygı, Yalınlık, Doğal ışık, Uzun ömürlü malzeme.
+- Her iki sayfanın sekme başlığı ve açıklama meta etiketi kendine özgüdür.
 
 ## Ana sayfa
 
@@ -312,6 +324,7 @@ Bu çalışmada **fotoğraf kullanılmaz**. Tüm proje görselleri bu repo için
 | --- | --- | --- | --- | --- |
 | `src/assets/projects/prj-001` … `prj-006` / `kapak.svg` (aksonometri), `galeri-1.svg` (cephe), `galeri-2.svg` (kesit), `galeri-3.svg` (plan) | Proje kartları ve proje detayı | `scripts/drawings` betiğiyle kütle modellerinden üretildi | Dörtçatı konsept çalışması (özgün) | Repo ile aynı koşullar; üçüncü taraf hakkı yok |
 | `src/assets/projects/prj-007` … `prj-009` / `kapak.svg` (iç perspektif), `galeri-1.svg` (plan), `galeri-2.svg` (iç cephe / kesit), `galeri-3.svg` (detay aksonometrisi) | Proje kartları ve proje detayı | `scripts/drawings` betiğiyle üretildi | Dörtçatı konsept çalışması (özgün) | Repo ile aynı koşullar; üçüncü taraf hakkı yok |
+| `src/assets/about/atolye.svg` (atölye perspektifi), `dort-cati.svg` (ortak bahçeli dört ev aksonometrisi) | Hakkımızda sayfası | `scripts/drawings/about.ts` ile üretildi | Dörtçatı konsept çalışması (özgün) | Repo ile aynı koşullar; üçüncü taraf hakkı yok |
 | `src/assets/fonts/*.woff2` | Tüm site | Google Fonts deposu (Fraunces, Inter) | Fraunces ve Inter proje yazarları | SIL OFL 1.1 |
 
 Çizim kuralları:
